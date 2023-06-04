@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import GoogleMap from '@/components/map/GoogleMap.vue'
 </script>
 
 <template>
+    
     <div class="sm:ml-64">
-    <TheWelcome />
+    <GoogleMap />
     </div>
 </template>
