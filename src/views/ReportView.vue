@@ -11,7 +11,7 @@ export default {
   created() {
     liff
       .init({
-        liffId: import.meta.env.VUE_APP_LIFF_ID || ''
+        liffId: import.meta.env.VITE_APP_LIFF_ID || ''
       })
       .then(() => {
         this.isLoggedIn = liff.isLoggedIn()
