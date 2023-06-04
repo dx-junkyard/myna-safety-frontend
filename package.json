@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.15.2",
+    "@line/liff": "^2.22.1",
     "flowbite": "^1.6.5",
     "flowbite-vue": "^0.0.10",
     "vue": "^3.3.2",
