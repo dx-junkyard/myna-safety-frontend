@@ -39,55 +39,55 @@ export default {
       class="relative overflow-x-auto shadow-md sm:rounded-lg h-screen w-full bg-slate-50 text-black"
     >
       <div class="px-5 pt-3 pb-5">
-        <h1 class="text-2xl font-semibold">被害状況報告フォーム</h1>
-        <p>{{ isLoggedIn ? userName : 'ゲスト' }}さん、こんにちは</p>
+        <h1 class="text-2xl font-semibold py-10">被害状況報告フォーム</h1>
+        <!-- <p>{{ isLoggedIn ? userName : 'ゲスト' }}さん、こんにちは</p> -->
 
         <form>
-          <!-- <div class="relative z-0 w-full mb-6 group"> 
-          <label for="countries" class="block mb-2 text-sm font-medium text-gray-900"
-              >災害状況を教えて</label
+          <div class="relative z-0 w-full mb-6 group">
+            <label for="disaster" class="block mb-2 text-sm font-medium text-gray-900"
+              >被害事由</label
             >
             <select
-              id="countries"
+              id="disasters"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             >
-              <option>United States</option>
-              <option>Canada</option>
-              <option>France</option>
-              <option>Germany</option>
+              <option value="" selected hidden>選択してください</option>
+              <option>台風</option>
+              <option>地震</option>
+              <option>洪水</option>
+              <option>火災</option>
+              <option>火山噴火</option>
+              <option>大雪</option>
+              <option>落雷</option>
             </select>
-          </div> -->
+          </div>
           <div class="relative z-0 w-full mb-6 group">
             <label for="message" class="block mb-2 text-sm font-medium text-gray-900"
-              >Your message</label
+              >被害箇所・被害状況</label
             >
             <textarea
               id="message"
               rows="4"
               class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Leave a comment..."
+              placeholder="屋根の損壊により雨漏り・強風により外壁に傷・雪による屋根の損壊・落雷によりアンテナ・テレビが故障"
             ></textarea>
           </div>
           <div class="relative z-0 w-full mb-6 group">
             <label class="block mb-2 text-sm font-medium text-gray-900" for="user_avatar"
-              >Upload file</label
+              >被害状況がわかる画像を選択してください</label
             >
             <input
               class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
-              aria-describedby="user_avatar_help"
-              id="user_avatar"
+              id="damage_image"
               type="file"
             />
-            <div class="mt-1 text-sm text-gray-500" id="user_avatar_help">
-              A profile picture is useful to confirm your are logged into your account
-            </div>
           </div>
 
           <button
             type="submit"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Submit
+            被害状況を報告
           </button>
         </form>
       </div>

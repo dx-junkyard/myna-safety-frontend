@@ -68,6 +68,33 @@
         </li>
         <li>
           <a
+            href="/report"
+            class="flex bg-white items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            <svg
+              aria-hidden="true"
+              class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+              fill="#5187a3"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              viewBox="0 0 512 512"
+              xml:space="preserve"
+            >
+              <g>
+                <path
+                  class="st0"
+                  d="M433.198,202.846l-69.291-69.236l-54.996-54.926l-52.823-53.018L0,281.562l37.928,37.905l34.026-33.995v200.86
+                                h150.257h67.577h150.257V285.442l34.026,34.026L512,281.562L433.198,202.846z M408.139,454.426H299.595V335.265h-87.191v119.161
+                                H103.862V253.589l152.227-152.103l152.05,152.049V454.426z"
+                ></path>
+              </g>
+            </svg>
+            <span class="flex-1 ml-3 font-semibold whitespace-nowrap">被害状況報告</span>
+          </a>
+        </li>
+        <li>
+          <a
             href="/map"
             class="flex bg-white items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
           >
