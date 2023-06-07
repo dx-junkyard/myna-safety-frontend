@@ -9,16 +9,19 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "generate-client": "openapi-generator-cli generate -g typescript-axios -i openapi.json -o ./src/types/typescript-axios"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.15.2",
     "flowbite": "^1.6.5",
     "flowbite-vue": "^0.0.10",
     "vue": "^3.3.2",
-    "vue-router": "^4.2.0"
+    "vue-router": "^4.2.0",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.6.0",
     "@rushstack/eslint-patch": "^1.2.0",
     "@tsconfig/node18": "^2.0.1",
     "@types/google.maps": "^3.53.2",
