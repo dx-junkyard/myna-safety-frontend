@@ -1,0 +1,414 @@
+{
+  "openapi": "3.0.2",
+  "info": { "title": "FastAPI", "version": "0.1.0" },
+  "paths": {
+    "/callback": {
+      "post": {
+        "tags": ["line_bot"],
+        "summary": "Callback",
+        "description": "Line Bot用のエンドポイントです",
+        "operationId": "callback_callback_post",
+        "parameters": [
+          {
+            "required": false,
+            "schema": { "title": "X-Line-Signature" },
+            "name": "x-line-signature",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/report": {
+      "get": {
+        "tags": ["report"],
+        "summary": "Get User Reports",
+        "description": "ユースケース2: 申告内容の一覧を取得する",
+        "operationId": "get_user_reports_report_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ListUserReportResponse" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["report"],
+        "summary": "Post User Report",
+        "description": "ユースケース1: ユーザがHelpを申請する",
+        "operationId": "post_user_report_report_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": { "$ref": "#/components/schemas/Body_post_user_report_report_post" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/EntryUserReportResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/report/{user_report_id}": {
+      "put": {
+        "tags": ["report"],
+        "summary": "Put User Report",
+        "description": "ユースケース3: ユーザがヘルプ情報を更新する",
+        "operationId": "put_user_report_report__user_report_id__put",
+        "parameters": [
+          {
+            "required": true,
+            "schema": { "title": "User Report Id", "type": "string" },
+            "name": "user_report_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_put_user_report_report__user_report_id__put"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UpdateUserReportResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/report/_dummy_a": {
+      "get": {
+        "tags": ["report"],
+        "summary": " Dummy Post",
+        "operationId": "_dummy_post_report__dummy_a_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": { "title": "User Report Id", "type": "string" },
+            "name": "user_report_id",
+            "in": "query"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EntryUserReportRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/report/_dummy_b": {
+      "get": {
+        "tags": ["report"],
+        "summary": " Dummy Put",
+        "operationId": "_dummy_put_report__dummy_b_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": { "title": "User Report Id", "type": "string" },
+            "name": "user_report_id",
+            "in": "query"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateUserReportRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_post_user_report_report_post": {
+        "title": "Body_post_user_report_report_post",
+        "required": ["request"],
+        "type": "object",
+        "properties": {
+          "request": { "$ref": "#/components/schemas/EntryUserReportRequest" },
+          "file": { "title": "File", "type": "string", "format": "binary" }
+        }
+      },
+      "Body_put_user_report_report__user_report_id__put": {
+        "title": "Body_put_user_report_report__user_report_id__put",
+        "required": ["request"],
+        "type": "object",
+        "properties": {
+          "request": { "$ref": "#/components/schemas/UpdateUserReportRequest" },
+          "file": { "title": "File", "type": "string", "format": "binary" }
+        }
+      },
+      "EntryUserReportRequest": {
+        "title": "EntryUserReportRequest",
+        "required": ["user_id", "location"],
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "title": "User Id",
+            "type": "string",
+            "description": "UserID、LINEのIDなど？"
+          },
+          "location": {
+            "title": "Location",
+            "allOf": [{ "$ref": "#/components/schemas/Location" }],
+            "description": "申告者の位置情報"
+          },
+          "content": {
+            "title": "Content",
+            "type": "string",
+            "description": "報告内容、選択式にする？",
+            "default": ""
+          }
+        },
+        "description": "ユーザ通知リクエストに含める項目"
+      },
+      "EntryUserReportResponse": {
+        "title": "EntryUserReportResponse",
+        "required": ["user_report_id"],
+        "type": "object",
+        "properties": {
+          "user_report_id": {
+            "title": "User Report Id",
+            "type": "string",
+            "description": "発行された申告ID"
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ValidationError" }
+          }
+        }
+      },
+      "ListUserReportResponse": {
+        "title": "ListUserReportResponse",
+        "type": "object",
+        "properties": {
+          "user_reports": {
+            "title": "User Reports",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/UserReportModel" },
+            "description": "ユーザが申告した情報一覧",
+            "default": []
+          }
+        }
+      },
+      "Location": {
+        "title": "Location",
+        "required": ["longitude", "latitude"],
+        "type": "object",
+        "properties": {
+          "longitude": { "title": "Longitude", "type": "number", "description": "経度" },
+          "latitude": { "title": "Latitude", "type": "number", "description": "緯度" }
+        }
+      },
+      "ReportLevel": {
+        "title": "ReportLevel",
+        "enum": ["High", "Middle", "Low"],
+        "type": "string",
+        "description": "An enumeration."
+      },
+      "ReportStatus": {
+        "title": "ReportStatus",
+        "enum": ["NO ASSIGN", "IN PROGRESS", "COMPLETE", "PENDING"],
+        "type": "string",
+        "description": "An enumeration."
+      },
+      "UpdateUserReportRequest": {
+        "title": "UpdateUserReportRequest",
+        "required": ["location", "content", "report_level", "report_status"],
+        "type": "object",
+        "properties": {
+          "location": {
+            "title": "Location",
+            "allOf": [{ "$ref": "#/components/schemas/Location" }],
+            "description": "申告者の位置情報"
+          },
+          "content": {
+            "title": "Content",
+            "type": "string",
+            "description": "報告内容、選択式にする？"
+          },
+          "report_level": {
+            "allOf": [{ "$ref": "#/components/schemas/ReportLevel" }],
+            "description": "申告内容の深刻度"
+          },
+          "report_status": {
+            "allOf": [{ "$ref": "#/components/schemas/ReportStatus" }],
+            "description": "申告内容の状態"
+          }
+        }
+      },
+      "UpdateUserReportResponse": {
+        "title": "UpdateUserReportResponse",
+        "required": ["user_report_id"],
+        "type": "object",
+        "properties": {
+          "user_report_id": {
+            "title": "User Report Id",
+            "type": "string",
+            "description": "発行された申告ID"
+          }
+        }
+      },
+      "UserReportModel": {
+        "title": "UserReportModel",
+        "required": [
+          "user_id",
+          "user_report_id",
+          "location",
+          "content",
+          "report_level",
+          "report_status"
+        ],
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "title": "User Id",
+            "type": "string",
+            "description": "UserID、LINEのIDなど？"
+          },
+          "user_report_id": {
+            "title": "User Report Id",
+            "type": "string",
+            "description": "申告ID"
+          },
+          "location": {
+            "title": "Location",
+            "allOf": [{ "$ref": "#/components/schemas/Location" }],
+            "description": "申告者の位置情報"
+          },
+          "content": {
+            "title": "Content",
+            "type": "string",
+            "description": "報告内容、選択式にする？"
+          },
+          "image_url": { "title": "Image Url", "type": "string", "description": "画像のURL" },
+          "report_level": {
+            "allOf": [{ "$ref": "#/components/schemas/ReportLevel" }],
+            "description": "申告内容の深刻度"
+          },
+          "report_status": {
+            "allOf": [{ "$ref": "#/components/schemas/ReportStatus" }],
+            "description": "申告内容の状態"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "description": "作成時間",
+            "format": "date-time",
+            "default": "2023-06-04T21:27:05.867993+09:00"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string",
+            "description": "最終更新時間",
+            "format": "date-time"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": ["loc", "msg", "type"],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] }
+          },
+          "msg": { "title": "Message", "type": "string" },
+          "type": { "title": "Error Type", "type": "string" }
+        }
+      }
+    }
+  }
+}
