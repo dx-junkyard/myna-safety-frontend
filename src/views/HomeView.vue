@@ -69,14 +69,14 @@ export default defineComponent({
             </h5>
             <div class="flex items-center mt-2.5 mb-5">
               <span
-                class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+                class="bg-blue-100 text-blue-800 dark:text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
                 >緯度</span
               >
               <span class="text-sm">{{ ur.location.longitude }}</span>
             </div>
             <div class="flex items-center mt-2.5 mb-5">
               <span
-                class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+                class="bg-blue-100 text-blue-800 dark:text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
                 >緯度</span
               >
               <span class="text-sm">{{ ur.location.latitude }}</span>
