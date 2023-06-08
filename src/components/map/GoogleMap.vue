@@ -100,7 +100,6 @@ export default defineComponent({
       })
     }
 
-    console.log(userReport)
     return { googleMapEl }
   }
 })
