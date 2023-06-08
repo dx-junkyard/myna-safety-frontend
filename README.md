@@ -2,6 +2,11 @@
 
 - [マイナセーフティ Web画面](https://myna-safety-388707.web.app/)
 
+> **Warning**  
+> Github Actionから自動デプロイされた場合、GoogleMapAPIのAPIキーが登録されないため、地図が表示されません。  
+> 公開の直前はローカルで下記のコマンドを実行し、再度デプロイしてください  
+> `firebase deploy`
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
