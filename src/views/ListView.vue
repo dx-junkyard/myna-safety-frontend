@@ -24,12 +24,12 @@ export default defineComponent({
 <template>
   <div class="p-1 sm:ml-64">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <div class="flex items-center justify-between py-4 bg-white dark:bg-gray-800">
+      <div class="flex items-center justify-between py-4 bg-white">
         <div>
           <button
             id="dropdownActionButton"
             data-dropdown-toggle="dropdownAction"
-            class="ml-3 inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+            class="ml-3 inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5"
             type="button"
           >
             <span class="sr-only">Action button</span>
@@ -53,30 +53,30 @@ export default defineComponent({
           <!-- Dropdown menu -->
           <div
             id="dropdownAction"
-            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
           >
             <ul
-              class="py-1 text-sm text-gray-700 dark:text-gray-200"
+              class="py-1 text-sm text-gray-700"
               aria-labelledby="dropdownActionButton"
             >
               <li>
                 <a
                   href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  class="block px-4 py-2 hover:bg-gray-100"
                   >未対応</a
                 >
               </li>
               <li>
                 <a
                   href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  class="block px-4 py-2 hover:bg-gray-100"
                   >対応中</a
                 >
               </li>
               <li>
                 <a
                   href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  class="block px-4 py-2 hover:bg-gray-100"
                   >完了済み</a
                 >
               </li>
@@ -84,7 +84,7 @@ export default defineComponent({
             <div class="py-1">
               <a
                 href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >リストダウンロード</a
               >
             </div>
@@ -94,7 +94,7 @@ export default defineComponent({
         <div class="relative mr-2">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
-              class="w-5 h-5 text-gray-500 dark:text-gray-400"
+              class="w-5 h-5 text-gray-500"
               aria-hidden="true"
               fill="currentColor"
               viewBox="0 0 20 20"
@@ -110,14 +110,14 @@ export default defineComponent({
           <input
             type="text"
             id="table-search-users"
-            class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Search"
           />
         </div>
       </div>
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <table class="w-full text-sm text-left text-gray-500">
         <thead
-          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+          class="text-xs text-gray-700 uppercase bg-gray-50"
         >
           <tr>
             <th scope="col" class="px-6 py-3">投稿内容</th>
@@ -131,15 +131,14 @@ export default defineComponent({
           <tr
             v-for="ur in userReport.userReports"
             :key="ur"
-            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            class="bg-white border-b hover:bg-gray-50"
           >
             <th
               scope="row"
-              class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+              class="flex items-center px-6 py-4 text-gray-900"
             >
-              <div class="">
+              <div class="break-words">
                 <div class="text-base font-semibold">内容: {{ ur.content }}</div>
-                <div class="font-normal text-gray-500">ユーザ: {{ ur.user_id }}</div>
               </div>
             </th>
             <td class="px-6 py-4">
@@ -167,7 +166,7 @@ export default defineComponent({
                 type="button"
                 data-modal-target="editUserModal"
                 data-modal-show="editUserModal"
-                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                class="font-medium text-blue-600 hover:underline"
                 >詳細表示</a
               >
             </td>
