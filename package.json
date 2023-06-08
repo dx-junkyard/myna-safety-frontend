@@ -13,7 +13,6 @@
     "generate-client": "openapi-generator-cli generate -g typescript-axios -i openapi.json -o ./src/types/typescript-axios"
   },
   "dependencies": {
-    "@googlemaps/js-api-loader": "^1.15.2",
     "flowbite": "^1.6.5",
     "flowbite-vue": "^0.0.10",
     "vue": "^3.3.2",
@@ -21,6 +20,8 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@googlemaps/js-api-loader": "^1.16.1",
+    "@googlemaps/markerclusterer": "^2.2.3",
     "@openapitools/openapi-generator-cli": "^2.6.0",
     "@rushstack/eslint-patch": "^1.2.0",
     "@tsconfig/node18": "^2.0.1",
