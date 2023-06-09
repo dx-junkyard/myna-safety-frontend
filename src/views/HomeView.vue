@@ -1,5 +1,6 @@
 <script lang="ts">
 import ReportDetailModal from '../components/common/ReportDetailModal.vue'
+import Emoji from '../components/common/Emoji.vue'
 import { defineComponent, computed, onBeforeMount } from 'vue'
 import { useStore } from '@/store'
 
@@ -14,7 +15,8 @@ export default defineComponent({
     return { userReport }
   },
   components: {
-    ReportDetailModal
+    ReportDetailModal,
+    Emoji,
   },
   data() {
     return {}
@@ -24,6 +26,7 @@ export default defineComponent({
 
 <template>
   <div class="p-4 sm:ml-64">
+    <Emoji />
     <div
       class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 3xl:md:grid-cols-6"
     >
@@ -70,16 +73,11 @@ export default defineComponent({
             <div class="flex items-center mt-2.5 mb-5">
               <span
                 class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
-                >緯度</span
+                >位置情報</span
               >
-              <span class="text-sm text-gray-900">{{ ur.location.longitude }}</span>
-            </div>
-            <div class="flex items-center mt-2.5 mb-5">
-              <span
-                class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
-                >緯度</span
-              >
-              <span class="text-sm text-gray-900">{{ ur.location.latitude }}</span>
+              <span class="text-sm text-gray-900">{{ ur.location.longitude }}
+                ←住所に変換する
+            </span>
             </div>
           </div>
         </a>
