@@ -83,8 +83,63 @@ export default defineComponent({
               >
               <span class="text-sm text-gray-900">{{ ur.location.longitude }}
                 ←住所に変換する
-            </span>
+              </span>
             </div>
+
+                <!--他人が押した絵文字-->
+                <span id="badge-dismiss-dark" class="inline-flex items-center p-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded dark:bg-gray-700 dark:text-gray-300">
+                    <button
+                    type="button"
+                    class="p-1 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
+                    >
+                    <svg
+                    aria-hidden="true"
+                    class="w-6 h-6"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                    >
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
+                        clip-rule="evenodd"
+                    ></path>
+                    </svg>
+                </button>
+                </span>
+                <!----他人が押した絵文字---->
+
+                <!----他人が押した絵文字---->
+                <span id="badge-dismiss-dark" class="inline-flex items-center p-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded dark:bg-gray-700 dark:text-gray-300">
+                    <button
+                    type="button"
+                    class="p-1 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
+                    >
+                    <svg
+                    aria-hidden="true"
+                    class="w-6 h-6"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                    >
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
+                        clip-rule="evenodd"
+                    ></path>
+                    </svg>
+                </button>
+                <span class="inline-flex items-center justify-center w-3 h-3 p-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">3</span>
+                </span>
+            <!--他人が押した絵文字-->
+
+            <!--コメント（トラスト情報）-->
+            <div class="p-1 mt-1 font-semibold">返信1件 <span>2023/06/05 23:07:33</span></div>
+            <!--コメント（トラスト情報）-->
+
+
+
+
           </div>
         </a>
       </div>
