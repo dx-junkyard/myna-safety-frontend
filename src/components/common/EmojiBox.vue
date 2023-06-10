@@ -1,13 +1,6 @@
 <template>
-  <div class="row">
+    <div style="padding: 15px 13px">{{ emojisOutput }}</div>
     <Picker :data="emojiIndex" set="twitter" @select="showEmoji" />
-  </div>
-
-  <div class="row">
-    <div>
-      {{ emojisOutput }}
-    </div>
-  </div>
 </template>
 
 <script>
@@ -38,22 +31,16 @@ export default {
 
   methods: {
     showEmoji(emoji) {
-      this.emojisOutput = this.emojisOutput + emoji.native
+      this.emojisOutput = emoji.native
     }
   }
 }
 </script>
 
 <style>
-.row {
-  display: flex;
-}
-.row > * {
-  margin: auto;
-}
 section.emoji-mart {
+  top: 51px;
   left: 0;
   position: absolute;
-  margin: 0rem 22px;
 }
 </style>

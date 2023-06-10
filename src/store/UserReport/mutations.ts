@@ -1,5 +1,6 @@
 import type { MutationTree } from 'vuex'
 import type { UserReportState } from '../types'
+import type { ModalContents } from '../types'
 import type { UserReportModel } from '@/types/typescript-axios'
 
 const mutations: MutationTree<UserReportState> = {
@@ -18,6 +19,12 @@ const mutations: MutationTree<UserReportState> = {
     state: UserReportState,
     ) => {
     state.isMapOutlineOpen = !state.isMapOutlineOpen
+  },
+  changeModalContents: (
+    state: UserReportState,
+    ModalContents: UserReportModel[]
+    ) => {
+    state.modalContents = ModalContents.ModalContents
   },
 }
 
