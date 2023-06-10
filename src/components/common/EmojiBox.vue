@@ -1,6 +1,6 @@
 <template>
-    <div style="padding: 15px 13px">{{ emojisOutput }}</div>
-    <Picker :data="emojiIndex" set="twitter" @select="showEmoji" />
+  <div style="padding: 15px 13px">{{ emojisOutput }}</div>
+  <Picker :data="emojiIndex" set="twitter" @select="showEmoji" />
 </template>
 
 <script>

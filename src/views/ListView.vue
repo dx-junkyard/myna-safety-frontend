@@ -7,7 +7,7 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const userReport = computed(() => store.getters['userReports/getAllList'])
-    const changeModal  = () => store.commit('userReports/changeModalStatus')
+    const changeModal = () => store.commit('userReports/changeModalStatus')
 
     onBeforeMount(async () => {
       await store.dispatch('userReports/getAllList')
@@ -56,36 +56,19 @@ export default defineComponent({
             id="dropdownAction"
             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
           >
-            <ul
-              class="py-1 text-sm text-gray-700"
-              aria-labelledby="dropdownActionButton"
-            >
+            <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownActionButton">
               <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100"
-                  >未対応</a
-                >
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">未対応</a>
               </li>
               <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100"
-                  >対応中</a
-                >
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">対応中</a>
               </li>
               <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100"
-                  >完了済み</a
-                >
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">完了済み</a>
               </li>
             </ul>
             <div class="py-1">
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >リストダウンロード</a
               >
             </div>
@@ -117,9 +100,7 @@ export default defineComponent({
         </div>
       </div>
       <table class="w-full text-sm text-left text-gray-500">
-        <thead
-          class="text-xs text-gray-700 uppercase bg-gray-50"
-        >
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
             <th scope="col" class="px-6 py-3">投稿内容</th>
             <th scope="col" class="px-6 py-3">発生時間<br />最終更新時間</th>
@@ -129,15 +110,8 @@ export default defineComponent({
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="ur in userReport"
-            :key="ur"
-            class="bg-white border-b hover:bg-gray-50"
-          >
-            <th
-              scope="row"
-              class="flex items-center px-6 py-4 text-gray-900"
-            >
+          <tr v-for="ur in userReport" :key="ur" class="bg-white border-b hover:bg-gray-50">
+            <th scope="row" class="flex items-center px-6 py-4 text-gray-900">
               <div class="break-words">
                 <div class="text-base font-semibold">内容: {{ ur.content }}</div>
               </div>
@@ -163,7 +137,7 @@ export default defineComponent({
             <td class="px-6 py-4">
               <!-- Modal toggle -->
               <a
-               @click="changeModal"
+                @click="changeModal"
                 href="#"
                 type="button"
                 data-modal-target="editUserModal"
