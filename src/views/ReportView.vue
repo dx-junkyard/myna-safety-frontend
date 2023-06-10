@@ -72,12 +72,6 @@ export default {
           .catch((error) => {
             console.log(error)
           })
-        await liff.sendMessages([
-          {
-            type: 'text',
-            text: '被害状況を更新しました。'
-          }
-        ])
         liff.closeWindow()
       }
     }
