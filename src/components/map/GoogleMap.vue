@@ -4,6 +4,8 @@ import { defineComponent, ref, computed, onBeforeMount, onMounted } from 'vue'
 import { useStore } from '@/store'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import type { UserReportModel } from '@/types/typescript-axios'
+import MapOutline from '@/components/map/MapOutline.vue'
+import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
 
 export default defineComponent({
   data: function () {
@@ -14,6 +16,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore()
+    const changeMapOutlineStatus  = () => store.commit('userReports/changeMapOutlineStatus')
 
     // バックエンドから申告の情報取得
     const userReport = computed(() => store.getters['userReports/getAllList'])
@@ -68,7 +71,7 @@ export default defineComponent({
       const markers = [] as any[]
       markerClusterer.value = new MarkerClusterer({ markers, map: MAP.value })
 
-      userReport.value.userReports.forEach((element: UserReportModel) => {
+      userReport.value.forEach((element: UserReportModel) => {
         // マーカー作成
         const marker = new GOOGLE.value.maps.Marker({
           position: { lat: element.location.latitude, lng: element.location.longitude },
@@ -79,6 +82,7 @@ export default defineComponent({
         const infoWindow = new GOOGLE.value.maps.InfoWindow()
         // クリックイベントを追加
         marker.addListener('click', () => {
+          changeMapOutlineStatus()
           infoWindow.close()
 
           const p_node = document.createElement('p')
@@ -101,17 +105,24 @@ export default defineComponent({
     }
 
     return { googleMapEl }
-  }
+  },
+  components: {
+    MapOutline,
+    ReportStatusBudge,
+  },
 })
 </script>
 
 <template>
-  <div ref="googleMapEl" class="google-map" />
+    <div>
+        <div ref="googleMapEl" class="google-map" />
+        <MapOutline />
+    </div>
 </template>
 
 <style>
 .google-map {
-  height: 100vh;
+  height: 95vh;
   width: 100%;
 }
 </style>

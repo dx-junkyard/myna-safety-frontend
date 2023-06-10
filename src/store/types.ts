@@ -6,4 +6,6 @@ export interface RootState {
 
 export interface UserReportState {
   userReports: UserReportModel[]
+  isModalOpen: Boolean
+  isMapOutlineOpen: Boolean
 }

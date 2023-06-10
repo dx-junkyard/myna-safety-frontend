@@ -5,7 +5,9 @@ import mutations from './mutations'
 import type { Module } from 'vuex/types/index.js'
 
 const state: UserReportState = {
-  userReports: []
+  userReports: [],
+  isModalOpen: false,
+  isMapOutlineOpen: false,
 }
 
 export const userReports: Module<UserReportState, RootState> = {

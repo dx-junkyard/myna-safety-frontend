@@ -1,5 +1,7 @@
 <script lang="ts">
 import ReportDetailModal from '../components/common/ReportDetailModal.vue'
+import Emoji from '../components/common/Emoji.vue'
+import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
 import { defineComponent, computed, onBeforeMount } from 'vue'
 import { useStore } from '@/store'
 
@@ -7,14 +9,17 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const userReport = computed(() => store.getters['userReports/getAllList'])
+    const changeModal  = () => store.commit('userReports/changeModalStatus')
 
     onBeforeMount(async () => {
       await store.dispatch('userReports/getAllList')
     })
-    return { userReport }
+    return { userReport, changeModal }
   },
   components: {
-    ReportDetailModal
+    ReportDetailModal,
+    Emoji,
+    ReportStatusBudge,
   },
   data() {
     return {}
@@ -28,11 +33,16 @@ export default defineComponent({
       class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 3xl:md:grid-cols-6"
     >
       <div
-        v-for="ur in userReport.userReports"
+        v-for="ur in userReport"
         :key="ur"
         class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow m-auto"
       >
-        <a href="#" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal">
+        <a 
+        @click="changeModal"
+        href="#" type="button"
+        data-modal-target='editUserModal'
+        data-modal-show='editUserModal'
+        >
           <img v-if="ur.image_url" class="rounded-t-lg" :src="ur.image_url" alt="product image" />
           <img
             v-if="ur.content.indexOf('ひび割れ') != -1"
@@ -64,22 +74,18 @@ export default defineComponent({
             alt="product image"
           />
           <div class="px-5 pt-3 pb-5">
+            <ReportStatusBudge :report_status = ur.report_status />
             <h5 class="text-xl font-semibold tracking-tight text-gray-900 ">
               {{ ur.content }}
             </h5>
             <div class="flex items-center mt-2.5 mb-5">
               <span
                 class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
-                >緯度</span
+                >位置情報</span
               >
-              <span class="text-sm text-gray-900">{{ ur.location.longitude }}</span>
-            </div>
-            <div class="flex items-center mt-2.5 mb-5">
-              <span
-                class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
-                >緯度</span
-              >
-              <span class="text-sm text-gray-900">{{ ur.location.latitude }}</span>
+              <span class="text-sm text-gray-900">{{ ur.location.longitude }}
+                ←住所に変換する
+            </span>
             </div>
           </div>
         </a>
