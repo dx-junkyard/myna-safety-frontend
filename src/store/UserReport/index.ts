@@ -8,7 +8,7 @@ const state: UserReportState = {
   userReports: [],
   isModalOpen: false,
   isMapOutlineOpen: false,
-  modalContents: [],
+  modalContent: []
 }
 
 export const userReports: Module<UserReportState, RootState> = {
