@@ -55,19 +55,23 @@ export default {
   methods: {
     putReport: async function () {
       if (this.userRerportId) {
-        await new ReportApi().putUserReportReportUserReportIdPut(
-          this.userRerportId,
-          {
-            location: {
-              latitude: this.report?.location.latitude || 0,
-              longitude: this.report?.location.latitude || 0
+        await new ReportApi()
+          .putUserReportReportUserReportIdPut(
+            this.userRerportId,
+            {
+              location: {
+                latitude: this.report?.location.latitude || 0,
+                longitude: this.report?.location.latitude || 0
+              },
+              content: this.report ? this.report.content : this.content,
+              report_level: this.report?.report_level || ReportLevel.Low,
+              report_status: this.report?.report_status || ReportStatus.NoAssign
             },
-            content: this.report ? this.report.content : this.content,
-            report_level: this.report?.report_level || ReportLevel.Low,
-            report_status: this.report?.report_status || ReportStatus.NoAssign
-          },
-          undefined
-        )
+            undefined
+          )
+          .catch((error) => {
+            console.log(error)
+          })
         await liff.sendMessages([
           {
             type: 'text',
