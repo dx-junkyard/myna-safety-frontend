@@ -11,26 +11,20 @@ export default {
     }
   },
   async created() {
-    await liff
-      .init({
-        liffId: import.meta.env.VITE_APP_LIFF_ID || ''
-      })
-      .then(() => {
-        // 本番環境以外は何もしない
-        if (import.meta.env.DEV) {
-          return
-        }
+    // 本番環境以外は何もしない
+    if (import.meta.env.DEV) {
+      return
+    }
 
-        this.isLoggedIn = liff.isLoggedIn()
-        if (!liff.isInClient() && !liff.isLoggedIn()) {
-          liff.login()
-        } else {
-          this.isInClient = liff.isInClient()
-          liff.getProfile().then((profile) => {
-            this.lineUserId = profile.userId
-          })
-        }
+    this.isLoggedIn = liff.isLoggedIn()
+    if (!liff.isInClient() && !liff.isLoggedIn()) {
+      liff.login()
+    } else {
+      this.isInClient = liff.isInClient()
+      liff.getProfile().then((profile) => {
+        this.lineUserId = profile.userId
       })
+    }
   },
   methods: {
     linkage: async function () {
