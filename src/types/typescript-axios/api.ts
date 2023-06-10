@@ -24,29 +24,118 @@ import type { RequestArgs } from './base';
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 
 /**
- * ユーザ通知リクエストに含める項目
+ * 
  * @export
- * @interface EntryUserReportRequest
+ * @interface AppModelsUserReportDomainLocation
  */
-export interface EntryUserReportRequest {
+export interface AppModelsUserReportDomainLocation {
     /**
-     * UserID、LINEのIDなど？
+     * 経度
+     * @type {number}
+     * @memberof AppModelsUserReportDomainLocation
+     */
+    'longitude': number;
+    /**
+     * 緯度
+     * @type {number}
+     * @memberof AppModelsUserReportDomainLocation
+     */
+    'latitude': number;
+}
+/**
+ * 
+ * @export
+ * @interface AppModelsUserReportFeedbackDomainLocation
+ */
+export interface AppModelsUserReportFeedbackDomainLocation {
+    /**
+     * 経度
+     * @type {number}
+     * @memberof AppModelsUserReportFeedbackDomainLocation
+     */
+    'longitude': number;
+    /**
+     * 緯度
+     * @type {number}
+     * @memberof AppModelsUserReportFeedbackDomainLocation
+     */
+    'latitude': number;
+}
+/**
+ * 
+ * @export
+ * @interface EntryUserReportFeedBackCommentRequest
+ */
+export interface EntryUserReportFeedBackCommentRequest {
+    /**
+     * 投稿者のユーザID
      * @type {string}
-     * @memberof EntryUserReportRequest
+     * @memberof EntryUserReportFeedBackCommentRequest
      */
     'user_id': string;
     /**
      * 
-     * @type {Location1}
-     * @memberof EntryUserReportRequest
+     * @type {Location}
+     * @memberof EntryUserReportFeedBackCommentRequest
      */
-    'location': Location1;
+    'location'?: Location;
     /**
-     * 報告内容、選択式にする？
+     * コメント内容
      * @type {string}
-     * @memberof EntryUserReportRequest
+     * @memberof EntryUserReportFeedBackCommentRequest
      */
-    'content'?: string;
+    'comment'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EntryUserReportFeedBackCommentResponse
+ */
+export interface EntryUserReportFeedBackCommentResponse {
+    /**
+     * コメントID
+     * @type {string}
+     * @memberof EntryUserReportFeedBackCommentResponse
+     */
+    'user_report_feedback_comment_id': string;
+}
+/**
+ * 
+ * @export
+ * @interface EntryUserReportFeedBackReactionRequest
+ */
+export interface EntryUserReportFeedBackReactionRequest {
+    /**
+     * 投稿者のユーザID
+     * @type {string}
+     * @memberof EntryUserReportFeedBackReactionRequest
+     */
+    'user_id': string;
+    /**
+     * 
+     * @type {Location}
+     * @memberof EntryUserReportFeedBackReactionRequest
+     */
+    'location'?: Location;
+    /**
+     * リアクション内容(フロントで表示を切り替えるためここでは任意の文字列を入れる)
+     * @type {string}
+     * @memberof EntryUserReportFeedBackReactionRequest
+     */
+    'reaction'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EntryUserReportFeedBackReactionResponse
+ */
+export interface EntryUserReportFeedBackReactionResponse {
+    /**
+     * リアクションID
+     * @type {string}
+     * @memberof EntryUserReportFeedBackReactionResponse
+     */
+    'user_report_feedback_reaction_id': string;
 }
 /**
  * 
@@ -88,7 +177,7 @@ export interface ListUserReportResponse {
     'user_reports'?: Array<UserReportModel>;
 }
 /**
- * 
+ * 投稿者の位置情報
  * @export
  * @interface Location
  */
@@ -126,11 +215,30 @@ export interface Location1 {
     'latitude': number;
 }
 /**
+ * 投稿者の位置情報
+ * @export
+ * @interface Location2
+ */
+export interface Location2 {
+    /**
+     * 経度
+     * @type {number}
+     * @memberof Location2
+     */
+    'longitude': number;
+    /**
+     * 緯度
+     * @type {number}
+     * @memberof Location2
+     */
+    'latitude': number;
+}
+/**
  * 
  * @export
- * @interface Location2Inner
+ * @interface Location3Inner
  */
-export interface Location2Inner {
+export interface Location3Inner {
 }
 /**
  * An enumeration.
@@ -141,7 +249,8 @@ export interface Location2Inner {
 export const ReportLevel = {
     High: 'High',
     Middle: 'Middle',
-    Low: 'Low'
+    Low: 'Low',
+    UnKnown: 'UnKnown'
 } as const;
 
 export type ReportLevel = typeof ReportLevel[keyof typeof ReportLevel];
@@ -166,39 +275,6 @@ export type ReportStatus = typeof ReportStatus[keyof typeof ReportStatus];
 /**
  * 
  * @export
- * @interface UpdateUserReportRequest
- */
-export interface UpdateUserReportRequest {
-    /**
-     * 
-     * @type {Location1}
-     * @memberof UpdateUserReportRequest
-     */
-    'location': Location1;
-    /**
-     * 報告内容、選択式にする？
-     * @type {string}
-     * @memberof UpdateUserReportRequest
-     */
-    'content': string;
-    /**
-     * 
-     * @type {ReportLevel}
-     * @memberof UpdateUserReportRequest
-     */
-    'report_level': ReportLevel;
-    /**
-     * 
-     * @type {ReportStatus}
-     * @memberof UpdateUserReportRequest
-     */
-    'report_status': ReportStatus;
-}
-
-
-/**
- * 
- * @export
  * @interface UpdateUserReportResponse
  */
 export interface UpdateUserReportResponse {
@@ -208,6 +284,118 @@ export interface UpdateUserReportResponse {
      * @memberof UpdateUserReportResponse
      */
     'user_report_id': string;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateUserRequest
+ */
+export interface UpdateUserRequest {
+    /**
+     * マイナポータルAPIの暗証番号
+     * @type {string}
+     * @memberof UpdateUserRequest
+     */
+    'pass_phrase': string;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateUserResponse
+ */
+export interface UpdateUserResponse {
+    /**
+     * ユーザID
+     * @type {string}
+     * @memberof UpdateUserResponse
+     */
+    'user_id': string;
+}
+/**
+ * ユーザリクエストに対する返信に含める項目
+ * @export
+ * @interface UserReportFeedbackComment
+ */
+export interface UserReportFeedbackComment {
+    /**
+     * コメントID
+     * @type {string}
+     * @memberof UserReportFeedbackComment
+     */
+    'user_report_feedback_comment_id': string;
+    /**
+     * 投稿者のユーザID
+     * @type {string}
+     * @memberof UserReportFeedbackComment
+     */
+    'user_id': string;
+    /**
+     * 
+     * @type {Location2}
+     * @memberof UserReportFeedbackComment
+     */
+    'location'?: Location2;
+    /**
+     * コメント内容
+     * @type {string}
+     * @memberof UserReportFeedbackComment
+     */
+    'comment'?: string;
+    /**
+     * 作成時間
+     * @type {string}
+     * @memberof UserReportFeedbackComment
+     */
+    'created_at'?: string;
+    /**
+     * 最終更新時間
+     * @type {string}
+     * @memberof UserReportFeedbackComment
+     */
+    'updated_at'?: string;
+}
+/**
+ * ユーザリクエストに対するリアクションに含める項目
+ * @export
+ * @interface UserReportFeedbackReaction
+ */
+export interface UserReportFeedbackReaction {
+    /**
+     * リアクションID
+     * @type {string}
+     * @memberof UserReportFeedbackReaction
+     */
+    'user_report_feedback_reaction_id': string;
+    /**
+     * 投稿者のユーザID
+     * @type {string}
+     * @memberof UserReportFeedbackReaction
+     */
+    'user_id': string;
+    /**
+     * 
+     * @type {Location2}
+     * @memberof UserReportFeedbackReaction
+     */
+    'location'?: Location2;
+    /**
+     * リアクション内容(フロントで表示を切り替えるためここでは任意の文字列を入れる)
+     * @type {string}
+     * @memberof UserReportFeedbackReaction
+     */
+    'reaction'?: string;
+    /**
+     * 作成時間
+     * @type {string}
+     * @memberof UserReportFeedbackReaction
+     */
+    'created_at'?: string;
+    /**
+     * 最終更新時間
+     * @type {string}
+     * @memberof UserReportFeedbackReaction
+     */
+    'updated_at'?: string;
 }
 /**
  * 
@@ -234,6 +422,12 @@ export interface UserReportModel {
      */
     'location': Location1;
     /**
+     * 画面に表示されるタイトル。報告内容などからChatGPTから自動で生成される
+     * @type {string}
+     * @memberof UserReportModel
+     */
+    'title'?: string;
+    /**
      * 報告内容、選択式にする？
      * @type {string}
      * @memberof UserReportModel
@@ -258,6 +452,12 @@ export interface UserReportModel {
      */
     'report_status': ReportStatus;
     /**
+     * 申告者のスコア
+     * @type {number}
+     * @memberof UserReportModel
+     */
+    'report_score'?: number;
+    /**
      * 作成時間
      * @type {string}
      * @memberof UserReportModel
@@ -269,6 +469,18 @@ export interface UserReportModel {
      * @memberof UserReportModel
      */
     'updated_at'?: string;
+    /**
+     * 申告に対するフィードバックコメント
+     * @type {Array<UserReportFeedbackComment>}
+     * @memberof UserReportModel
+     */
+    'user_report_feedback_comments'?: Array<UserReportFeedbackComment>;
+    /**
+     * 申告に対するリアクション
+     * @type {Array<UserReportFeedbackReaction>}
+     * @memberof UserReportModel
+     */
+    'user_report_feedback_reactions'?: Array<UserReportFeedbackReaction>;
 }
 
 
@@ -280,10 +492,10 @@ export interface UserReportModel {
 export interface ValidationError {
     /**
      * 
-     * @type {Array<Location2Inner>}
+     * @type {Array<Location3Inner>}
      * @memberof ValidationError
      */
-    'loc': Array<Location2Inner>;
+    'loc': Array<Location3Inner>;
     /**
      * 
      * @type {string}
@@ -413,92 +625,6 @@ export class LineBotApi extends BaseAPI {
 export const ReportApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @summary  Dummy Post
-         * @param {string} userReportId 
-         * @param {EntryUserReportRequest} entryUserReportRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        dummyPostReportDummyAGet: async (userReportId: string, entryUserReportRequest: EntryUserReportRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userReportId' is not null or undefined
-            assertParamExists('dummyPostReportDummyAGet', 'userReportId', userReportId)
-            // verify required parameter 'entryUserReportRequest' is not null or undefined
-            assertParamExists('dummyPostReportDummyAGet', 'entryUserReportRequest', entryUserReportRequest)
-            const localVarPath = `/report/_dummy_a`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (userReportId !== undefined) {
-                localVarQueryParameter['user_report_id'] = userReportId;
-            }
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(entryUserReportRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary  Dummy Put
-         * @param {string} userReportId 
-         * @param {UpdateUserReportRequest} updateUserReportRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        dummyPutReportDummyBGet: async (userReportId: string, updateUserReportRequest: UpdateUserReportRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userReportId' is not null or undefined
-            assertParamExists('dummyPutReportDummyBGet', 'userReportId', userReportId)
-            // verify required parameter 'updateUserReportRequest' is not null or undefined
-            assertParamExists('dummyPutReportDummyBGet', 'updateUserReportRequest', updateUserReportRequest)
-            const localVarPath = `/report/_dummy_b`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (userReportId !== undefined) {
-                localVarQueryParameter['user_report_id'] = userReportId;
-            }
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(updateUserReportRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * ユースケース2: 申告内容の一覧を取得する
          * @summary Get User Reports
          * @param {*} [options] Override http request option.
@@ -522,6 +648,86 @@ export const ReportApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * ユーザのヘルプにコメントをつける
+         * @summary Post User Report Feedback Comment
+         * @param {string} reportId 
+         * @param {EntryUserReportFeedBackCommentRequest} entryUserReportFeedBackCommentRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postUserReportFeedbackCommentReportReportIdFeedbackCommentPost: async (reportId: string, entryUserReportFeedBackCommentRequest: EntryUserReportFeedBackCommentRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'reportId' is not null or undefined
+            assertParamExists('postUserReportFeedbackCommentReportReportIdFeedbackCommentPost', 'reportId', reportId)
+            // verify required parameter 'entryUserReportFeedBackCommentRequest' is not null or undefined
+            assertParamExists('postUserReportFeedbackCommentReportReportIdFeedbackCommentPost', 'entryUserReportFeedBackCommentRequest', entryUserReportFeedBackCommentRequest)
+            const localVarPath = `/report/{report_id}/feedback_comment`
+                .replace(`{${"report_id"}}`, encodeURIComponent(String(reportId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(entryUserReportFeedBackCommentRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * ユーザのヘルプにコメントをつける
+         * @summary Post User Report Feedback Reaction
+         * @param {string} reportId 
+         * @param {EntryUserReportFeedBackReactionRequest} entryUserReportFeedBackReactionRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postUserReportFeedbackReactionReportReportIdFeedbackReactionPost: async (reportId: string, entryUserReportFeedBackReactionRequest: EntryUserReportFeedBackReactionRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'reportId' is not null or undefined
+            assertParamExists('postUserReportFeedbackReactionReportReportIdFeedbackReactionPost', 'reportId', reportId)
+            // verify required parameter 'entryUserReportFeedBackReactionRequest' is not null or undefined
+            assertParamExists('postUserReportFeedbackReactionReportReportIdFeedbackReactionPost', 'entryUserReportFeedBackReactionRequest', entryUserReportFeedBackReactionRequest)
+            const localVarPath = `/report/{report_id}/feedback_reaction`
+                .replace(`{${"report_id"}}`, encodeURIComponent(String(reportId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(entryUserReportFeedBackReactionRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -635,30 +841,6 @@ export const ReportApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ReportApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @summary  Dummy Post
-         * @param {string} userReportId 
-         * @param {EntryUserReportRequest} entryUserReportRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async dummyPostReportDummyAGet(userReportId: string, entryUserReportRequest: EntryUserReportRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.dummyPostReportDummyAGet(userReportId, entryUserReportRequest, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @summary  Dummy Put
-         * @param {string} userReportId 
-         * @param {UpdateUserReportRequest} updateUserReportRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async dummyPutReportDummyBGet(userReportId: string, updateUserReportRequest: UpdateUserReportRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.dummyPutReportDummyBGet(userReportId, updateUserReportRequest, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
          * ユースケース2: 申告内容の一覧を取得する
          * @summary Get User Reports
          * @param {*} [options] Override http request option.
@@ -666,6 +848,30 @@ export const ReportApiFp = function(configuration?: Configuration) {
          */
         async getUserReportsReportGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListUserReportResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUserReportsReportGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * ユーザのヘルプにコメントをつける
+         * @summary Post User Report Feedback Comment
+         * @param {string} reportId 
+         * @param {EntryUserReportFeedBackCommentRequest} entryUserReportFeedBackCommentRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async postUserReportFeedbackCommentReportReportIdFeedbackCommentPost(reportId: string, entryUserReportFeedBackCommentRequest: EntryUserReportFeedBackCommentRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntryUserReportFeedBackCommentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postUserReportFeedbackCommentReportReportIdFeedbackCommentPost(reportId, entryUserReportFeedBackCommentRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * ユーザのヘルプにコメントをつける
+         * @summary Post User Report Feedback Reaction
+         * @param {string} reportId 
+         * @param {EntryUserReportFeedBackReactionRequest} entryUserReportFeedBackReactionRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async postUserReportFeedbackReactionReportReportIdFeedbackReactionPost(reportId: string, entryUserReportFeedBackReactionRequest: EntryUserReportFeedBackReactionRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntryUserReportFeedBackReactionResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postUserReportFeedbackReactionReportReportIdFeedbackReactionPost(reportId, entryUserReportFeedBackReactionRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -704,28 +910,6 @@ export const ReportApiFactory = function (configuration?: Configuration, basePat
     const localVarFp = ReportApiFp(configuration)
     return {
         /**
-         * 
-         * @summary  Dummy Post
-         * @param {string} userReportId 
-         * @param {EntryUserReportRequest} entryUserReportRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        dummyPostReportDummyAGet(userReportId: string, entryUserReportRequest: EntryUserReportRequest, options?: any): AxiosPromise<any> {
-            return localVarFp.dummyPostReportDummyAGet(userReportId, entryUserReportRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary  Dummy Put
-         * @param {string} userReportId 
-         * @param {UpdateUserReportRequest} updateUserReportRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        dummyPutReportDummyBGet(userReportId: string, updateUserReportRequest: UpdateUserReportRequest, options?: any): AxiosPromise<any> {
-            return localVarFp.dummyPutReportDummyBGet(userReportId, updateUserReportRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
          * ユースケース2: 申告内容の一覧を取得する
          * @summary Get User Reports
          * @param {*} [options] Override http request option.
@@ -733,6 +917,28 @@ export const ReportApiFactory = function (configuration?: Configuration, basePat
          */
         getUserReportsReportGet(options?: any): AxiosPromise<ListUserReportResponse> {
             return localVarFp.getUserReportsReportGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * ユーザのヘルプにコメントをつける
+         * @summary Post User Report Feedback Comment
+         * @param {string} reportId 
+         * @param {EntryUserReportFeedBackCommentRequest} entryUserReportFeedBackCommentRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postUserReportFeedbackCommentReportReportIdFeedbackCommentPost(reportId: string, entryUserReportFeedBackCommentRequest: EntryUserReportFeedBackCommentRequest, options?: any): AxiosPromise<EntryUserReportFeedBackCommentResponse> {
+            return localVarFp.postUserReportFeedbackCommentReportReportIdFeedbackCommentPost(reportId, entryUserReportFeedBackCommentRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * ユーザのヘルプにコメントをつける
+         * @summary Post User Report Feedback Reaction
+         * @param {string} reportId 
+         * @param {EntryUserReportFeedBackReactionRequest} entryUserReportFeedBackReactionRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postUserReportFeedbackReactionReportReportIdFeedbackReactionPost(reportId: string, entryUserReportFeedBackReactionRequest: EntryUserReportFeedBackReactionRequest, options?: any): AxiosPromise<EntryUserReportFeedBackReactionResponse> {
+            return localVarFp.postUserReportFeedbackReactionReportReportIdFeedbackReactionPost(reportId, entryUserReportFeedBackReactionRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * ユースケース1: ユーザがHelpを申請する
@@ -768,32 +974,6 @@ export const ReportApiFactory = function (configuration?: Configuration, basePat
  */
 export class ReportApi extends BaseAPI {
     /**
-     * 
-     * @summary  Dummy Post
-     * @param {string} userReportId 
-     * @param {EntryUserReportRequest} entryUserReportRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ReportApi
-     */
-    public dummyPostReportDummyAGet(userReportId: string, entryUserReportRequest: EntryUserReportRequest, options?: AxiosRequestConfig) {
-        return ReportApiFp(this.configuration).dummyPostReportDummyAGet(userReportId, entryUserReportRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary  Dummy Put
-     * @param {string} userReportId 
-     * @param {UpdateUserReportRequest} updateUserReportRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ReportApi
-     */
-    public dummyPutReportDummyBGet(userReportId: string, updateUserReportRequest: UpdateUserReportRequest, options?: AxiosRequestConfig) {
-        return ReportApiFp(this.configuration).dummyPutReportDummyBGet(userReportId, updateUserReportRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
      * ユースケース2: 申告内容の一覧を取得する
      * @summary Get User Reports
      * @param {*} [options] Override http request option.
@@ -802,6 +982,32 @@ export class ReportApi extends BaseAPI {
      */
     public getUserReportsReportGet(options?: AxiosRequestConfig) {
         return ReportApiFp(this.configuration).getUserReportsReportGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * ユーザのヘルプにコメントをつける
+     * @summary Post User Report Feedback Comment
+     * @param {string} reportId 
+     * @param {EntryUserReportFeedBackCommentRequest} entryUserReportFeedBackCommentRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportApi
+     */
+    public postUserReportFeedbackCommentReportReportIdFeedbackCommentPost(reportId: string, entryUserReportFeedBackCommentRequest: EntryUserReportFeedBackCommentRequest, options?: AxiosRequestConfig) {
+        return ReportApiFp(this.configuration).postUserReportFeedbackCommentReportReportIdFeedbackCommentPost(reportId, entryUserReportFeedBackCommentRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * ユーザのヘルプにコメントをつける
+     * @summary Post User Report Feedback Reaction
+     * @param {string} reportId 
+     * @param {EntryUserReportFeedBackReactionRequest} entryUserReportFeedBackReactionRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportApi
+     */
+    public postUserReportFeedbackReactionReportReportIdFeedbackReactionPost(reportId: string, entryUserReportFeedBackReactionRequest: EntryUserReportFeedBackReactionRequest, options?: AxiosRequestConfig) {
+        return ReportApiFp(this.configuration).postUserReportFeedbackReactionReportReportIdFeedbackReactionPost(reportId, entryUserReportFeedBackReactionRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -829,6 +1035,120 @@ export class ReportApi extends BaseAPI {
      */
     public putUserReportReportUserReportIdPut(userReportId: string, request: UpdateUserReportRequest, file?: File, options?: AxiosRequestConfig) {
         return ReportApiFp(this.configuration).putUserReportReportUserReportIdPut(userReportId, request, file, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * UserApi - axios parameter creator
+ * @export
+ */
+export const UserApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * ユーザのヘルプにコメントをつける
+         * @summary Put User
+         * @param {string} lineUserId 
+         * @param {UpdateUserRequest} updateUserRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        putUserUserLineUserIdPut: async (lineUserId: string, updateUserRequest: UpdateUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'lineUserId' is not null or undefined
+            assertParamExists('putUserUserLineUserIdPut', 'lineUserId', lineUserId)
+            // verify required parameter 'updateUserRequest' is not null or undefined
+            assertParamExists('putUserUserLineUserIdPut', 'updateUserRequest', updateUserRequest)
+            const localVarPath = `/user/{line_user_id}`
+                .replace(`{${"line_user_id"}}`, encodeURIComponent(String(lineUserId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateUserRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * UserApi - functional programming interface
+ * @export
+ */
+export const UserApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = UserApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * ユーザのヘルプにコメントをつける
+         * @summary Put User
+         * @param {string} lineUserId 
+         * @param {UpdateUserRequest} updateUserRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async putUserUserLineUserIdPut(lineUserId: string, updateUserRequest: UpdateUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateUserResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putUserUserLineUserIdPut(lineUserId, updateUserRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * UserApi - factory interface
+ * @export
+ */
+export const UserApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UserApiFp(configuration)
+    return {
+        /**
+         * ユーザのヘルプにコメントをつける
+         * @summary Put User
+         * @param {string} lineUserId 
+         * @param {UpdateUserRequest} updateUserRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        putUserUserLineUserIdPut(lineUserId: string, updateUserRequest: UpdateUserRequest, options?: any): AxiosPromise<UpdateUserResponse> {
+            return localVarFp.putUserUserLineUserIdPut(lineUserId, updateUserRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * UserApi - object-oriented interface
+ * @export
+ * @class UserApi
+ * @extends {BaseAPI}
+ */
+export class UserApi extends BaseAPI {
+    /**
+     * ユーザのヘルプにコメントをつける
+     * @summary Put User
+     * @param {string} lineUserId 
+     * @param {UpdateUserRequest} updateUserRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public putUserUserLineUserIdPut(lineUserId: string, updateUserRequest: UpdateUserRequest, options?: AxiosRequestConfig) {
+        return UserApiFp(this.configuration).putUserUserLineUserIdPut(lineUserId, updateUserRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

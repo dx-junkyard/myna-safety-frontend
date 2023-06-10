@@ -2,24 +2,34 @@
   "openapi": "3.0.2",
   "info": { "title": "FastAPI", "version": "0.1.0" },
   "paths": {
-    "/callback": {
-      "post": {
-        "tags": ["line_bot"],
-        "summary": "Callback",
-        "description": "Line Bot用のエンドポイントです",
-        "operationId": "callback_callback_post",
+    "/user/{line_user_id}": {
+      "put": {
+        "tags": ["user"],
+        "summary": "Put User",
+        "description": "ユーザのヘルプにコメントをつける",
+        "operationId": "put_user_user__line_user_id__put",
         "parameters": [
           {
-            "required": false,
-            "schema": { "title": "X-Line-Signature" },
-            "name": "x-line-signature",
-            "in": "header"
+            "required": true,
+            "schema": { "title": "Line User Id", "type": "string" },
+            "name": "line_user_id",
+            "in": "path"
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/UpdateUserRequest" } }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UpdateUserResponse" }
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
@@ -126,23 +136,24 @@
         }
       }
     },
-    "/report/_dummy_a": {
-      "get": {
+    "/report/{report_id}/feedback_comment": {
+      "post": {
         "tags": ["report"],
-        "summary": " Dummy Post",
-        "operationId": "_dummy_post_report__dummy_a_get",
+        "summary": "Post User Report Feedback Comment",
+        "description": "ユーザのヘルプにコメントをつける",
+        "operationId": "post_user_report_feedback_comment_report__report_id__feedback_comment_post",
         "parameters": [
           {
             "required": true,
-            "schema": { "title": "User Report Id", "type": "string" },
-            "name": "user_report_id",
-            "in": "query"
+            "schema": { "title": "Report Id", "type": "string" },
+            "name": "report_id",
+            "in": "path"
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/EntryUserReportRequest" }
+              "schema": { "$ref": "#/components/schemas/EntryUserReportFeedBackCommentRequest" }
             }
           },
           "required": true
@@ -150,7 +161,11 @@
         "responses": {
           "200": {
             "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/EntryUserReportFeedBackCommentResponse" }
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
@@ -163,27 +178,62 @@
         }
       }
     },
-    "/report/_dummy_b": {
-      "get": {
+    "/report/{report_id}/feedback_reaction": {
+      "post": {
         "tags": ["report"],
-        "summary": " Dummy Put",
-        "operationId": "_dummy_put_report__dummy_b_get",
+        "summary": "Post User Report Feedback Reaction",
+        "description": "ユーザのヘルプにコメントをつける",
+        "operationId": "post_user_report_feedback_reaction_report__report_id__feedback_reaction_post",
         "parameters": [
           {
             "required": true,
-            "schema": { "title": "User Report Id", "type": "string" },
-            "name": "user_report_id",
-            "in": "query"
+            "schema": { "title": "Report Id", "type": "string" },
+            "name": "report_id",
+            "in": "path"
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/UpdateUserReportRequest" }
+              "schema": { "$ref": "#/components/schemas/EntryUserReportFeedBackReactionRequest" }
             }
           },
           "required": true
         },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/EntryUserReportFeedBackReactionResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/callback": {
+      "post": {
+        "tags": ["line_bot"],
+        "summary": "Callback",
+        "description": "Line Bot用のエンドポイントです",
+        "operationId": "callback_callback_post",
+        "parameters": [
+          {
+            "required": false,
+            "schema": { "title": "X-Line-Signature" },
+            "name": "x-line-signature",
+            "in": "header"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -221,6 +271,72 @@
           "file": { "title": "File", "type": "string", "format": "binary" }
         }
       },
+      "EntryUserReportFeedBackCommentRequest": {
+        "title": "EntryUserReportFeedBackCommentRequest",
+        "required": ["user_id"],
+        "type": "object",
+        "properties": {
+          "user_id": { "title": "User Id", "type": "string", "description": "投稿者のユーザID" },
+          "location": {
+            "title": "Location",
+            "allOf": [
+              { "$ref": "#/components/schemas/app__models__user_report__domain__Location" }
+            ],
+            "description": "投稿者の位置情報"
+          },
+          "comment": {
+            "title": "Comment",
+            "type": "string",
+            "description": "コメント内容",
+            "default": ""
+          }
+        }
+      },
+      "EntryUserReportFeedBackCommentResponse": {
+        "title": "EntryUserReportFeedBackCommentResponse",
+        "required": ["user_report_feedback_comment_id"],
+        "type": "object",
+        "properties": {
+          "user_report_feedback_comment_id": {
+            "title": "User Report Feedback Comment Id",
+            "type": "string",
+            "description": "コメントID"
+          }
+        }
+      },
+      "EntryUserReportFeedBackReactionRequest": {
+        "title": "EntryUserReportFeedBackReactionRequest",
+        "required": ["user_id"],
+        "type": "object",
+        "properties": {
+          "user_id": { "title": "User Id", "type": "string", "description": "投稿者のユーザID" },
+          "location": {
+            "title": "Location",
+            "allOf": [
+              { "$ref": "#/components/schemas/app__models__user_report__domain__Location" }
+            ],
+            "description": "投稿者の位置情報"
+          },
+          "reaction": {
+            "title": "Reaction",
+            "type": "string",
+            "description": "リアクション内容(フロントで表示を切り替えるためここでは任意の文字列を入れる)",
+            "default": ""
+          }
+        }
+      },
+      "EntryUserReportFeedBackReactionResponse": {
+        "title": "EntryUserReportFeedBackReactionResponse",
+        "required": ["user_report_feedback_reaction_id"],
+        "type": "object",
+        "properties": {
+          "user_report_feedback_reaction_id": {
+            "title": "User Report Feedback Reaction Id",
+            "type": "string",
+            "description": "リアクションID"
+          }
+        }
+      },
       "EntryUserReportRequest": {
         "title": "EntryUserReportRequest",
         "required": ["user_id", "location"],
@@ -233,7 +349,9 @@
           },
           "location": {
             "title": "Location",
-            "allOf": [{ "$ref": "#/components/schemas/Location" }],
+            "allOf": [
+              { "$ref": "#/components/schemas/app__models__user_report__domain__Location" }
+            ],
             "description": "申告者の位置情報"
           },
           "content": {
@@ -281,18 +399,9 @@
           }
         }
       },
-      "Location": {
-        "title": "Location",
-        "required": ["longitude", "latitude"],
-        "type": "object",
-        "properties": {
-          "longitude": { "title": "Longitude", "type": "number", "description": "経度" },
-          "latitude": { "title": "Latitude", "type": "number", "description": "緯度" }
-        }
-      },
       "ReportLevel": {
         "title": "ReportLevel",
-        "enum": ["High", "Middle", "Low"],
+        "enum": ["High", "Middle", "Low", "UnKnown"],
         "type": "string",
         "description": "An enumeration."
       },
@@ -309,8 +418,16 @@
         "properties": {
           "location": {
             "title": "Location",
-            "allOf": [{ "$ref": "#/components/schemas/Location" }],
+            "allOf": [
+              { "$ref": "#/components/schemas/app__models__user_report__domain__Location" }
+            ],
             "description": "申告者の位置情報"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "画面に表示されるタイトル。報告内容などからChatGPTから自動で生成される",
+            "default": "タイトルなし"
           },
           "content": {
             "title": "Content",
@@ -339,6 +456,106 @@
           }
         }
       },
+      "UpdateUserRequest": {
+        "title": "UpdateUserRequest",
+        "required": ["pass_phrase"],
+        "type": "object",
+        "properties": {
+          "pass_phrase": {
+            "title": "Pass Phrase",
+            "type": "string",
+            "description": "マイナポータルAPIの暗証番号"
+          }
+        }
+      },
+      "UpdateUserResponse": {
+        "title": "UpdateUserResponse",
+        "required": ["user_id"],
+        "type": "object",
+        "properties": {
+          "user_id": { "title": "User Id", "type": "string", "description": "ユーザID" }
+        }
+      },
+      "UserReportFeedbackComment": {
+        "title": "UserReportFeedbackComment",
+        "required": ["user_report_feedback_comment_id", "user_id"],
+        "type": "object",
+        "properties": {
+          "user_report_feedback_comment_id": {
+            "title": "User Report Feedback Comment Id",
+            "type": "string",
+            "description": "コメントID"
+          },
+          "user_id": { "title": "User Id", "type": "string", "description": "投稿者のユーザID" },
+          "location": {
+            "title": "Location",
+            "allOf": [
+              { "$ref": "#/components/schemas/app__models__user_report_feedback__domain__Location" }
+            ],
+            "description": "投稿者の位置情報"
+          },
+          "comment": {
+            "title": "Comment",
+            "type": "string",
+            "description": "コメント内容",
+            "default": ""
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "description": "作成時間",
+            "format": "date-time",
+            "default": "2023-06-10T21:21:17.036118+09:00"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string",
+            "description": "最終更新時間",
+            "format": "date-time"
+          }
+        },
+        "description": "ユーザリクエストに対する返信に含める項目"
+      },
+      "UserReportFeedbackReaction": {
+        "title": "UserReportFeedbackReaction",
+        "required": ["user_report_feedback_reaction_id", "user_id"],
+        "type": "object",
+        "properties": {
+          "user_report_feedback_reaction_id": {
+            "title": "User Report Feedback Reaction Id",
+            "type": "string",
+            "description": "リアクションID"
+          },
+          "user_id": { "title": "User Id", "type": "string", "description": "投稿者のユーザID" },
+          "location": {
+            "title": "Location",
+            "allOf": [
+              { "$ref": "#/components/schemas/app__models__user_report_feedback__domain__Location" }
+            ],
+            "description": "投稿者の位置情報"
+          },
+          "reaction": {
+            "title": "Reaction",
+            "type": "string",
+            "description": "リアクション内容(フロントで表示を切り替えるためここでは任意の文字列を入れる)",
+            "default": ""
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "description": "作成時間",
+            "format": "date-time",
+            "default": "2023-06-10T21:21:17.037440+09:00"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string",
+            "description": "最終更新時間",
+            "format": "date-time"
+          }
+        },
+        "description": "ユーザリクエストに対するリアクションに含める項目"
+      },
       "UserReportModel": {
         "title": "UserReportModel",
         "required": [
@@ -363,8 +580,16 @@
           },
           "location": {
             "title": "Location",
-            "allOf": [{ "$ref": "#/components/schemas/Location" }],
+            "allOf": [
+              { "$ref": "#/components/schemas/app__models__user_report__domain__Location" }
+            ],
             "description": "申告者の位置情報"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "画面に表示されるタイトル。報告内容などからChatGPTから自動で生成される",
+            "default": "タイトルなし"
           },
           "content": {
             "title": "Content",
@@ -380,18 +605,38 @@
             "allOf": [{ "$ref": "#/components/schemas/ReportStatus" }],
             "description": "申告内容の状態"
           },
+          "report_score": {
+            "title": "Report Score",
+            "type": "integer",
+            "description": "申告者のスコア",
+            "default": 0
+          },
           "created_at": {
             "title": "Created At",
             "type": "string",
             "description": "作成時間",
             "format": "date-time",
-            "default": "2023-06-04T21:27:05.867993+09:00"
+            "default": "2023-06-10T21:21:17.039521+09:00"
           },
           "updated_at": {
             "title": "Updated At",
             "type": "string",
             "description": "最終更新時間",
             "format": "date-time"
+          },
+          "user_report_feedback_comments": {
+            "title": "User Report Feedback Comments",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/UserReportFeedbackComment" },
+            "description": "申告に対するフィードバックコメント",
+            "default": []
+          },
+          "user_report_feedback_reactions": {
+            "title": "User Report Feedback Reactions",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/UserReportFeedbackReaction" },
+            "description": "申告に対するリアクション",
+            "default": []
           }
         }
       },
@@ -407,6 +652,24 @@
           },
           "msg": { "title": "Message", "type": "string" },
           "type": { "title": "Error Type", "type": "string" }
+        }
+      },
+      "app__models__user_report__domain__Location": {
+        "title": "Location",
+        "required": ["longitude", "latitude"],
+        "type": "object",
+        "properties": {
+          "longitude": { "title": "Longitude", "type": "number", "description": "経度" },
+          "latitude": { "title": "Latitude", "type": "number", "description": "緯度" }
+        }
+      },
+      "app__models__user_report_feedback__domain__Location": {
+        "title": "Location",
+        "required": ["longitude", "latitude"],
+        "type": "object",
+        "properties": {
+          "longitude": { "title": "Longitude", "type": "number", "description": "経度" },
+          "latitude": { "title": "Latitude", "type": "number", "description": "緯度" }
         }
       }
     }

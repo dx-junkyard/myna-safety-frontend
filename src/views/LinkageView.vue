@@ -1,4 +1,5 @@
 <script lang="ts">
+import { ReportApi, UserApi } from '@/types/typescript-axios'
 import liff from '@line/liff'
 
 export default {
@@ -7,7 +8,8 @@ export default {
       lineUserId: undefined as string | undefined,
       isInClient: undefined as boolean | undefined,
       isLoggedIn: false,
-      content: ''
+      content: '',
+      password: ''
     }
   },
   async created() {
@@ -28,7 +30,13 @@ export default {
   },
   methods: {
     linkage: async function () {
-      console.log(this.lineUserId)
+      await new UserApi()
+        .putUserUserLineUserIdPut(this.lineUserId as string, {
+          pass_phrase: this.password
+        })
+        .catch((error) => {
+          console.log(error)
+        })
       liff.closeWindow()
     }
   }
@@ -50,6 +58,7 @@ export default {
             >
             <input
               type="password"
+              v-model="password"
               id="password"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
