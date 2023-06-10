@@ -6,6 +6,8 @@ import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import type { UserReportModel } from '@/types/typescript-axios'
 import MapOutline from '@/components/map/MapOutline.vue'
 import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
+import pinImgUrl from '@/assets/image/pin_img.png';
+import pinForcusImgUrl from '@/assets/image/pin_forcs.png';
 
 export default defineComponent({
   data: function () {
@@ -76,12 +78,13 @@ export default defineComponent({
         const marker = new GOOGLE.value.maps.Marker({
           position: { lat: element.location.latitude, lng: element.location.longitude },
           title: element.content,
-          icon: element.image_url
+          icon: pinImgUrl,
         })
 
         const infoWindow = new GOOGLE.value.maps.InfoWindow()
         // クリックイベントを追加
         marker.addListener('click', () => {
+
           changeMapOutlineStatus()
           infoWindow.close()
 
@@ -99,8 +102,16 @@ export default defineComponent({
 
           infoWindow.setContent('テスト')
           infoWindow.open(marker.getMap(), marker)
+
+          // clickしたマーカーのアイコンを変更する処理（※1の処理の後）
+          setTimeout(function () {
+            marker.setIcon({
+              url: pinForcusImgUrl,
+            })
+          }, 10)
         })
         markerClusterer.value.addMarker(marker)
+
       })
     }
 
