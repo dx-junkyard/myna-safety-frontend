@@ -13,7 +13,12 @@ const mutations: MutationTree<UserReportState> = {
     state: UserReportState,
     ) => {
     state.isModalOpen = !state.isModalOpen
-  }
+  },
+  changeMapOutlineStatus: (
+    state: UserReportState,
+    ) => {
+    state.isMapOutlineOpen = !state.isMapOutlineOpen
+  },
 }
 
 export default mutations

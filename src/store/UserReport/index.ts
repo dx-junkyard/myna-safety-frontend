@@ -7,6 +7,7 @@ import type { Module } from 'vuex/types/index.js'
 const state: UserReportState = {
   userReports: [],
   isModalOpen: false,
+  isMapOutlineOpen: false,
 }
 
 export const userReports: Module<UserReportState, RootState> = {

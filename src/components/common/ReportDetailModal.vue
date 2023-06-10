@@ -7,12 +7,12 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const userReport = computed(() => store.getters['userReports/getAllList'])
-    const isModalOpen = computed(() => store.getters['userReports/getModalStatus'])
+    const isMapOutlineOpen = computed(() => store.getters['userReports/getModalStatus'])
     const changeModal  = () => store.commit('userReports/changeModalStatus')
     onBeforeMount(async () => {
       await store.dispatch('userReports/getAllList')
     })
-    return { userReport, changeModal, isModalOpen }
+    return { userReport, changeModal, isMapOutlineOpen }
   },
   components: {
     Emoji,
@@ -32,7 +32,7 @@ export default defineComponent({
 
 <template>
     <!-- 詳細表示 modal -->
-    <div v-if="isModalOpen" id="editUserModal" style="background: #5d5c5cd6" class="fixed top-0 left-0 right-0 z-50 items-center justify-center w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div v-if="isMapOutlineOpen" id="editUserModal" style="background: #5d5c5cd6" class="fixed top-0 left-0 right-0 z-50 items-center justify-center w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-w-2xl max-h-full m-auto">
         <!-- Modal content -->
         <form action="#" class="relative bg-white rounded-lg shadow">

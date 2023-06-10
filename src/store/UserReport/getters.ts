@@ -7,6 +7,9 @@ const getters: GetterTree<UserReportState, RootState> = {
   },
   getModalStatus: (state: UserReportState) => {
     return state.isModalOpen
+  },
+  getMapOutlineStatus: (state: UserReportState) => {
+    return state.isMapOutlineOpen
   }
 }
 
