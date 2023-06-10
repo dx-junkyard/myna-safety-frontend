@@ -125,8 +125,8 @@ export default {
               >被害状況がわかる画像を選択してください</label
             >
             <input
-              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
-              id="damage_image"
+              id="small_size"
+              class="block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
               type="file"
             />
           </div>
