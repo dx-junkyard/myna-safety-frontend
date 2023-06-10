@@ -13,7 +13,13 @@ export default defineComponent({
     onBeforeMount(async () => {
       await store.dispatch('userReports/getAllList')
     })
-    return { userReport, changeModal }
+
+    const getImageUrl = (name) => {
+        console.log(name)
+        return new URL(name, import.meta.url).href
+    }
+
+    return { userReport, changeModal, getImageUrl }
   },
   components: {
     ReportDetailModal,
@@ -41,7 +47,7 @@ export default defineComponent({
         data-modal-target='editUserModal'
         data-modal-show='editUserModal'
         >
-          <img v-if="ur.image_url" class="rounded-t-lg" :src="ur.image_url" alt="product image" />
+          <img v-if="ur.image_url" class="rounded-t-lg" src="https://storage.cloud.google.com/myna-safety/thumbnail/xyz.jpeg" alt="product image" />
           <img
             v-if="ur.content.indexOf('ひび割れ') != -1"
             class="rounded-t-lg"
@@ -87,10 +93,10 @@ export default defineComponent({
             </div>
 
                 <!--他人が押した絵文字-->
-                <span id="badge-dismiss-dark" class="inline-flex items-center p-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded dark:bg-gray-700 dark:text-gray-300">
+                <span id="badge-dismiss-dark" class="inline-flex items-center p-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded">
                     <button
                     type="button"
-                    class="p-1 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
+                    class="p-1 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100"
                     >
                     <svg
                     aria-hidden="true"
@@ -110,10 +116,10 @@ export default defineComponent({
                 <!----他人が押した絵文字---->
 
                 <!----他人が押した絵文字---->
-                <span id="badge-dismiss-dark" class="inline-flex items-center p-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded dark:bg-gray-700 dark:text-gray-300">
+                <span id="badge-dismiss-dark" class="inline-flex items-center p-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded ">
                     <button
                     type="button"
-                    class="p-1 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
+                    class="p-1 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100"
                     >
                     <svg
                     aria-hidden="true"
