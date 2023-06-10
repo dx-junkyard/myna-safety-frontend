@@ -1,6 +1,5 @@
 <script lang="ts">
-import ReportDetailModal from '../components/common/ReportDetailModal.vue'
-import Emoji from '../components/common/Emoji.vue'
+import ReportDetailModal from '@/components/common/ReportDetailModal.vue'
 import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
 import { defineComponent, computed, onBeforeMount } from 'vue'
 import { useStore } from '@/store'
@@ -18,7 +17,6 @@ export default defineComponent({
   },
   components: {
     ReportDetailModal,
-    Emoji,
     ReportStatusBudge,
   },
   data() {
