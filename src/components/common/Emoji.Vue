@@ -47,4 +47,9 @@
   <style>
   .row { display: flex; }
   .row > * { margin: auto; }
+  section.emoji-mart {
+    left: 0;
+    position: absolute;
+    margin: 0rem 22px;
+  }
   </style>

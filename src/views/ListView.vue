@@ -7,11 +7,12 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const userReport = computed(() => store.getters['userReports/getAllList'])
+    const changeModal  = () => store.commit('userReports/changeModalStatus')
 
     onBeforeMount(async () => {
       await store.dispatch('userReports/getAllList')
     })
-    return { userReport }
+    return { userReport, changeModal }
   },
   components: {
     ReportDetailModal
@@ -129,7 +130,7 @@ export default defineComponent({
         </thead>
         <tbody>
           <tr
-            v-for="ur in userReport.userReports"
+            v-for="ur in userReport"
             :key="ur"
             class="bg-white border-b hover:bg-gray-50"
           >
@@ -162,6 +163,7 @@ export default defineComponent({
             <td class="px-6 py-4">
               <!-- Modal toggle -->
               <a
+               @click="changeModal"
                 href="#"
                 type="button"
                 data-modal-target="editUserModal"
@@ -173,8 +175,8 @@ export default defineComponent({
           </tr>
         </tbody>
       </table>
+      <ReportDetailModal />
     </div>
-    <ReportDetailModal />
   </div>
 </template>
 

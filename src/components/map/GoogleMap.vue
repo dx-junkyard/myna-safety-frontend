@@ -68,7 +68,7 @@ export default defineComponent({
       const markers = [] as any[]
       markerClusterer.value = new MarkerClusterer({ markers, map: MAP.value })
 
-      userReport.value.userReports.forEach((element: UserReportModel) => {
+      userReport.value.forEach((element: UserReportModel) => {
         // マーカー作成
         const marker = new GOOGLE.value.maps.Marker({
           position: { lat: element.location.latitude, lng: element.location.longitude },
