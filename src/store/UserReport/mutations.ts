@@ -1,13 +1,24 @@
 import type { MutationTree } from 'vuex'
-import type { UserReport, UserReportState } from '../types'
+import type { UserReportState } from '../types'
+import type { UserReportModel } from '@/types/typescript-axios'
 
 const mutations: MutationTree<UserReportState> = {
   getAllList: (
-    state: { userReports: { userReports: UserReport[] } },
-    userReports: UserReport[]
+    state: UserReportState,
+    userReports: UserReportModel[]
   ) => {
-    state.userReports.userReports = userReports
-  }
+    state.userReports = userReports
+  },
+  changeModalStatus: (
+    state: UserReportState,
+    ) => {
+    state.isModalOpen = !state.isModalOpen
+  },
+  changeMapOutlineStatus: (
+    state: UserReportState,
+    ) => {
+    state.isMapOutlineOpen = !state.isMapOutlineOpen
+  },
 }
 
 export default mutations
