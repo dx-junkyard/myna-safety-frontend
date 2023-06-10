@@ -31,6 +31,8 @@ export default {
     }
   },
   async created() {
+    this.userRerportId = (this.$route.query['report_id'] as string) || undefined
+
     // 本番環境以外は何もしない
     if (import.meta.env.DEV) {
       return
@@ -49,8 +51,6 @@ export default {
     const response = await new ReportApi().getUserReportsReportGet()
     const data: ListUserReportResponse = response.data
 
-    this.userRerportId = (this.$route.query['report_id'] as string) || undefined
-
     this.report = data.user_reports?.filter(
       (report) => report.user_report_id === this.userRerportId
     )[0]
@@ -61,19 +61,15 @@ export default {
     putReport: async function () {
       if (this.userRerportId) {
         await new ReportApi()
-          .putUserReportReportUserReportIdPut(
-            this.userRerportId,
-            {
-              location: {
-                latitude: this.report?.location.latitude || 0,
-                longitude: this.report?.location.latitude || 0
-              },
-              content: this.report ? this.report.content : this.content,
-              report_level: this.report?.report_level || ReportLevel.Low,
-              report_status: this.report?.report_status || ReportStatus.NoAssign
+          .putUserReportReportUserReportIdPut(this.userRerportId, {
+            location: {
+              latitude: this.report?.location.latitude || 0,
+              longitude: this.report?.location.latitude || 0
             },
-            undefined
-          )
+            content: this.report ? this.report.content : this.content,
+            report_level: this.report?.report_level || ReportLevel.Low,
+            report_status: this.report?.report_status || ReportStatus.NoAssign
+          })
           .catch((error) => {
             console.log(error)
           })
@@ -124,7 +120,7 @@ export default {
               placeholder="屋根の損壊により雨漏り・強風により外壁に傷・雪による屋根の損壊・落雷によりアンテナ・テレビが故障"
             ></textarea>
           </div>
-          <div class="relative z-0 w-full mb-6 group w-full">
+          <div class="relative z-0 w-full mb-6 group">
             <label class="block mb-2 text-sm font-medium text-gray-900" for="user_avatar"
               >被害状況がわかる画像を選択してください</label
             >
