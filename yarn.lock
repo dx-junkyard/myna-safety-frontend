@@ -173,10 +173,10 @@
   dependencies:
     "@floating-ui/core" "^0.3.0"
 
-"@googlemaps/js-api-loader@^1.15.2":
-  version "1.15.2"
-  resolved "https://registry.yarnpkg.com/@googlemaps/js-api-loader/-/js-api-loader-1.15.2.tgz#470be4454f4f31d7575ef297d8752dd87975162b"
-  integrity sha512-8FJwvd1F5Zxs/kDuH/ESFwSjOY0ZyGVkPDyv2VmC9cg8n1vPUKmvZJh/EzoikC/Z5itGMTRfcxmvSapXAi0+zQ==
+"@googlemaps/js-api-loader@^1.16.1":
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/@googlemaps/js-api-loader/-/js-api-loader-1.16.1.tgz#db74c851f8e26a50f578a07c195a87e1fb60ae90"
+  integrity sha512-x6M48e2nkIrp1KGNwXEVMRTCzruBw/w1HItlhVXL6Lp5pKuTcJEfOCE4tjPk3n6kLcMuJYXE8aluYMmakn7tTw==
   dependencies:
     fast-deep-equal "^3.1.3"
 
@@ -2763,6 +2763,11 @@ minimatch@^9.0.0:
   integrity sha512-0jWhJpD/MdhPXwPuiRkCbfYfSKp2qnn2eOc279qI7f+osl/l+prKSrvhg157zSYvx/1nmgn2NqdT6k2Z7zSH9w==
   dependencies:
     brace-expansion "^2.0.1"
+
+moment@^2.29.4:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 ms@2.0.0:
   version "2.0.0"
