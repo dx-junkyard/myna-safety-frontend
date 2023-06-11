@@ -4,6 +4,7 @@ import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
 import { defineComponent, computed, onBeforeMount } from 'vue'
 import { useStore } from '@/store'
 import type { UserReportModel } from '@/types/typescript-axios'
+import moment from 'moment'
 
 export default defineComponent({
   setup() {
@@ -17,7 +18,7 @@ export default defineComponent({
     onBeforeMount(async () => {
       await store.dispatch('userReports/getAllList')
     })
-    return { userReport, changeModal }
+    return { userReport, changeModal, moment }
   },
   components: {
     ReportDetailModal,
@@ -167,7 +168,11 @@ export default defineComponent({
             <!--他人が押した絵文字-->
             <!--コメント（トラスト情報）-->
             <div class="p-1 mt-1 font-semibold">
-              返信{{ ur.user_report_feedback_comments.length }}件 <span>{{ ur.updated_at }}</span>
+              返信{{ ur.user_report_feedback_comments.length }}件
+              <span>{{ moment(ur.created_at).format('YYYY年MM月DD日 hh時mm分') }}</span>
+              <span v-if="ur.updated_at">{{
+                moment(ur.updated_at).format('YYYY年MM月DD日 hh時mm分')
+              }}</span>
             </div>
             <!--コメント（トラスト情報）-->
           </div>

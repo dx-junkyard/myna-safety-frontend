@@ -2,6 +2,8 @@
 import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
 import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
+import moment from 'moment'
+
 
 export default defineComponent({
   setup() {
@@ -14,7 +16,7 @@ export default defineComponent({
     const getImageUrl = (name: string) => {
       return new URL(name, import.meta.url).href
     }
-    return { isMapOutlineOpen, changeMapOutlineStatus, getImageUrl, getModalContent }
+    return { isMapOutlineOpen, changeMapOutlineStatus, getImageUrl, getModalContent, moment }
   },
   data() {
     return {
@@ -78,11 +80,41 @@ export default defineComponent({
             <p>より助けを必要としている人からの申告です</p>
           </span>
         </div>
-        {{ getModalContent.content }}<br />
         <ReportStatusBudge :report_status="getModalContent.report_status" />
-        <br />
-        {{ getModalContent.created_at }}<br />
-        {{ getModalContent.address }}
+
+        <!--マイナスコアによって優先表示-->
+        <div class="flex items-center mt-2.5 mb-5">
+          <span
+            v-if="getModalContent.report_score > 3"
+            class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-yellow-300"
+          >
+            <p>より助けを必要としている人からの申告です</p>
+          </span>
+        </div>
+
+        <div class="flex items-center mt-2.5 mb-5">
+          <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+            >位置情報</span
+          >
+          <span>{{ getModalContent.address }}</span>
+        </div>
+
+        <div class="flex items-center mt-2.5 mb-5">
+          <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+            >報告内容</span
+          >
+          <span>{{ getModalContent.content }}</span>
+        </div>
+
+        <div class="flex items-center mt-2.5 mb-5">
+          <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+            >時間</span
+          >
+          <span>{{ moment(getModalContent.created_at).format('YYYY年MM月DD日 hh時mm分') }}</span>
+          <span v-if="getModalContent.updated_at">{{
+            moment(getModalContent.updated_at).format('YYYY年MM月DD日 hh時mm分')
+          }}</span>
+        </div>
       </div>
     </div>
   </div>
