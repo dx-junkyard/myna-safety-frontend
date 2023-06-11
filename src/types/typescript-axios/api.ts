@@ -138,6 +138,31 @@ export interface EntryUserReportFeedBackReactionResponse {
     'user_report_feedback_reaction_id': string;
 }
 /**
+ * ユーザ通知リクエストに含める項目
+ * @export
+ * @interface EntryUserReportRequest
+ */
+export interface EntryUserReportRequest {
+    /**
+     * UserID、LINEのIDなど？
+     * @type {string}
+     * @memberof EntryUserReportRequest
+     */
+    'user_id': string;
+    /**
+     * 
+     * @type {Location1}
+     * @memberof EntryUserReportRequest
+     */
+    'location': Location1;
+    /**
+     * 報告内容、選択式にする？
+     * @type {string}
+     * @memberof EntryUserReportRequest
+     */
+    'content'?: string;
+}
+/**
  * 
  * @export
  * @interface EntryUserReportResponse
@@ -440,6 +465,12 @@ export interface UserReportModel {
      */
     'image_url'?: string;
     /**
+     * 住所
+     * @type {string}
+     * @memberof UserReportModel
+     */
+    'address'?: string;
+    /**
      * 
      * @type {ReportLevel}
      * @memberof UserReportModel
@@ -509,6 +540,187 @@ export interface ValidationError {
      */
     'type': string;
 }
+
+/**
+ * DefaultApi - axios parameter creator
+ * @export
+ */
+export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * openapi-generatorの生成用
+         * @summary  Dummy Post User Report
+         * @param {EntryUserReportRequest} entryUserReportRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dummyPostUserReportDummyReportDummyPostPost: async (entryUserReportRequest: EntryUserReportRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'entryUserReportRequest' is not null or undefined
+            assertParamExists('dummyPostUserReportDummyReportDummyPostPost', 'entryUserReportRequest', entryUserReportRequest)
+            const localVarPath = `/__dummy_report__dummy_post`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(entryUserReportRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * openapi-generatorの生成用
+         * @summary  Dummy Put User Report
+         * @param {File} request 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dummyPutUserReportDummyReportDummyPutPut: async (request: File, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'request' is not null or undefined
+            assertParamExists('dummyPutUserReportDummyReportDummyPutPut', 'request', request)
+            const localVarPath = `/__dummy_report__dummy_put`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+
+            if (request !== undefined) { 
+                localVarFormParams.append('request', request as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DefaultApi - functional programming interface
+ * @export
+ */
+export const DefaultApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * openapi-generatorの生成用
+         * @summary  Dummy Post User Report
+         * @param {EntryUserReportRequest} entryUserReportRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async dummyPostUserReportDummyReportDummyPostPost(entryUserReportRequest: EntryUserReportRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.dummyPostUserReportDummyReportDummyPostPost(entryUserReportRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * openapi-generatorの生成用
+         * @summary  Dummy Put User Report
+         * @param {File} request 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async dummyPutUserReportDummyReportDummyPutPut(request: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.dummyPutUserReportDummyReportDummyPutPut(request, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * DefaultApi - factory interface
+ * @export
+ */
+export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DefaultApiFp(configuration)
+    return {
+        /**
+         * openapi-generatorの生成用
+         * @summary  Dummy Post User Report
+         * @param {EntryUserReportRequest} entryUserReportRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dummyPostUserReportDummyReportDummyPostPost(entryUserReportRequest: EntryUserReportRequest, options?: any): AxiosPromise<any> {
+            return localVarFp.dummyPostUserReportDummyReportDummyPostPost(entryUserReportRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * openapi-generatorの生成用
+         * @summary  Dummy Put User Report
+         * @param {File} request 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dummyPutUserReportDummyReportDummyPutPut(request: File, options?: any): AxiosPromise<any> {
+            return localVarFp.dummyPutUserReportDummyReportDummyPutPut(request, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DefaultApi - object-oriented interface
+ * @export
+ * @class DefaultApi
+ * @extends {BaseAPI}
+ */
+export class DefaultApi extends BaseAPI {
+    /**
+     * openapi-generatorの生成用
+     * @summary  Dummy Post User Report
+     * @param {EntryUserReportRequest} entryUserReportRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public dummyPostUserReportDummyReportDummyPostPost(entryUserReportRequest: EntryUserReportRequest, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).dummyPostUserReportDummyReportDummyPostPost(entryUserReportRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * openapi-generatorの生成用
+     * @summary  Dummy Put User Report
+     * @param {File} request 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public dummyPutUserReportDummyReportDummyPutPut(request: File, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).dummyPutUserReportDummyReportDummyPutPut(request, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
 /**
  * LineBotApi - axios parameter creator
@@ -784,12 +996,12 @@ export const ReportApiAxiosParamCreator = function (configuration?: Configuratio
          * ユースケース3: ユーザがヘルプ情報を更新する
          * @summary Put User Report
          * @param {string} userReportId 
-         * @param {UpdateUserReportRequest} request 
+         * @param {File} request 
          * @param {File} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putUserReportReportUserReportIdPut: async (userReportId: string, request: UpdateUserReportRequest, file?: File, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        putUserReportReportUserReportIdPut: async (userReportId: string, request: File, file?: File, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'userReportId' is not null or undefined
             assertParamExists('putUserReportReportUserReportIdPut', 'userReportId', userReportId)
             // verify required parameter 'request' is not null or undefined
@@ -810,7 +1022,7 @@ export const ReportApiAxiosParamCreator = function (configuration?: Configuratio
 
 
             if (request !== undefined) { 
-                localVarFormParams.append('request', new Blob([JSON.stringify(request)], { type: "application/json", }));
+                localVarFormParams.append('request', request as any);
             }
     
             if (file !== undefined) { 
@@ -890,12 +1102,12 @@ export const ReportApiFp = function(configuration?: Configuration) {
          * ユースケース3: ユーザがヘルプ情報を更新する
          * @summary Put User Report
          * @param {string} userReportId 
-         * @param {UpdateUserReportRequest} request 
+         * @param {File} request 
          * @param {File} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putUserReportReportUserReportIdPut(userReportId: string, request: UpdateUserReportRequest, file?: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateUserReportResponse>> {
+        async putUserReportReportUserReportIdPut(userReportId: string, request: File, file?: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateUserReportResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.putUserReportReportUserReportIdPut(userReportId, request, file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -955,12 +1167,12 @@ export const ReportApiFactory = function (configuration?: Configuration, basePat
          * ユースケース3: ユーザがヘルプ情報を更新する
          * @summary Put User Report
          * @param {string} userReportId 
-         * @param {UpdateUserReportRequest} request 
+         * @param {File} request 
          * @param {File} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putUserReportReportUserReportIdPut(userReportId: string, request: UpdateUserReportRequest, file?: File, options?: any): AxiosPromise<UpdateUserReportResponse> {
+        putUserReportReportUserReportIdPut(userReportId: string, request: File, file?: File, options?: any): AxiosPromise<UpdateUserReportResponse> {
             return localVarFp.putUserReportReportUserReportIdPut(userReportId, request, file, options).then((request) => request(axios, basePath));
         },
     };
@@ -1027,13 +1239,13 @@ export class ReportApi extends BaseAPI {
      * ユースケース3: ユーザがヘルプ情報を更新する
      * @summary Put User Report
      * @param {string} userReportId 
-     * @param {UpdateUserReportRequest} request 
+     * @param {File} request 
      * @param {File} [file] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportApi
      */
-    public putUserReportReportUserReportIdPut(userReportId: string, request: UpdateUserReportRequest, file?: File, options?: AxiosRequestConfig) {
+    public putUserReportReportUserReportIdPut(userReportId: string, request: File, file?: File, options?: AxiosRequestConfig) {
         return ReportApiFp(this.configuration).putUserReportReportUserReportIdPut(userReportId, request, file, options).then((request) => request(this.axios, this.basePath));
     }
 }

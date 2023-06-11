@@ -3,7 +3,7 @@ import GoogleMap from '@/components/map/GoogleMap.vue'
 </script>
 
 <template>
-    <div class="sm:ml-64 relative">
+  <div class="sm:ml-64 relative">
     <GoogleMap />
-    </div>
+  </div>
 </template>

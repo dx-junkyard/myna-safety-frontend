@@ -1,21 +1,62 @@
 <script lang="ts">
 import Emoji from '@/components/common/EmojiBox.vue'
-import { defineComponent, computed, onBeforeMount } from 'vue'
+import { defineComponent, computed, onBeforeMount, ref } from 'vue'
 import { useStore } from '@/store'
+import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
+import UserComment from '@/components/common/UserComment.vue'
+import ReportTag from '@/components/common/ReportTag.vue'
+import moment from 'moment'
+import type { EntryUserReportFeedBackCommentRequest } from '@/types/typescript-axios'
 
 export default defineComponent({
   setup() {
     const store = useStore()
-    const userReport = computed(() => store.getters['userReports/getAllList'])
-    const isMapOutlineOpen = computed(() => store.getters['userReports/getModalStatus'])
-    const changeModal = () => store.commit('userReports/changeModalStatus')
+
     onBeforeMount(async () => {
       await store.dispatch('userReports/getAllList')
     })
-    return { userReport, changeModal, isMapOutlineOpen }
+
+    const isMapOutlineOpen = computed(() => store.getters['userReports/getModalStatus'])
+    const getModalContent = computed(() => store.getters['userReports/getModalContent'])
+    const changeModal = () => store.commit('userReports/changeModalStatus')
+
+    const getImageUrl = (name: string) => {
+      return new URL(name, import.meta.url).href
+    }
+
+    let comment = ref('')
+    const postFeedbackComment = () => {
+      const reportId = getModalContent.value.user_report_id
+      const request = {
+        user_id: 'hogehoge',
+        comment: comment.value
+      } as EntryUserReportFeedBackCommentRequest
+      store.dispatch('userReports/postFeedbackComment', { reportId, request })
+    }
+    const postGoRescoreComment = () => {
+      const reportId = getModalContent.value.user_report_id
+      const request = {
+        user_id: 'hogehoge',
+        comment: 'テストユーザさんが救援に向かいます！'
+      } as EntryUserReportFeedBackCommentRequest
+      store.dispatch('userReports/postFeedbackComment', { reportId, request })
+    }
+    return {
+      comment,
+      changeModal,
+      isMapOutlineOpen,
+      getModalContent,
+      getImageUrl,
+      postFeedbackComment,
+      postGoRescoreComment,
+      moment
+    }
   },
   components: {
-    Emoji
+    Emoji,
+    ReportStatusBudge,
+    UserComment,
+    ReportTag
   },
   methods: {
     changeEmojiOpen() {
@@ -43,7 +84,8 @@ export default defineComponent({
       <form action="#" class="relative bg-white rounded-lg shadow">
         <!-- Modal header -->
         <div class="flex items-start justify-between p-4 border-b rounded-t">
-          <h3 class="text-xl font-semibold text-gray-900">道路にひび割れがあって怖いです</h3>
+          <h3 class="text-xl font-semibold text-gray-900">{{ getModalContent.title }}</h3>
+          <ReportStatusBudge :report_status="getModalContent.report_status" />
           <button
             @click="changeModal"
             type="button"
@@ -66,37 +108,29 @@ export default defineComponent({
           </button>
         </div>
         <!-- Modal body -->
+        <!--マイナスコアによって優先表示-->
         <div class="p-6 space-y-6">
-          <div class="mb-6">
-            <label
-              for="email"
-              class="text-base font-semibold block mb-2 text-sm font-medium text-gray-900"
-              >投稿内容</label
-            >
-            鈴木　彩香
+          <div class="flex items-center mt-2.5 mb-5">
+            <ReportTag :user-report="getModalContent"></ReportTag>
           </div>
           <label
             for="password"
             class="text-base font-semibold block mb-2 text-sm font-medium text-gray-900"
             >発生時間</label
           >
-          2023/06/02 12:19<br />
-          (最終更新時間：2023/06/03 23:19)
-          <div class="mb-6">
-            <label
-              for="email"
-              class="text-base font-semibold block mb-2 text-sm font-medium text-gray-900"
-              >投稿者</label
-            >
-            鈴木　彩香
-          </div>
+          {{ moment(getModalContent.created_at).format('YYYY年MM月DD日 hh時mm分') }}<br />
+          <span v-if="getModalContent.updated_at">
+            (最終更新時間：{{
+              moment(getModalContent.updated_at).format('YYYY年MM月DD日 hh時mm分')
+            }})
+          </span>
           <div class="mb-6">
             <label
               for="email"
               class="text-base font-semibold block mb-2 text-sm font-medium text-gray-900"
               >発生場所</label
             >
-            東京都台東区上野７丁目
+            {{ getModalContent.address }}
           </div>
           <div class="mb-6">
             <label
@@ -104,9 +138,7 @@ export default defineComponent({
               class="text-base font-semibold block mb-2 text-sm font-medium text-gray-900"
               >投稿内容</label
             >
-            私の住んでいる地域の〇〇通りにおいて、道路にひび割れが発生していることを報告いたします。このひび割れは大変危険であり、通行する際に不安を感じることがあります。<br />
-            ひび割れは、道路の幅員をまたいでいくつかの箇所で見受けられます。特に〇〇地点や〇〇地点など、具体的な位置を報告いたします。また、ひび割れの幅も広がっており、深さも増しているように感じます。これにより、自転車やバイク、歩行者が転倒したり、車両のタイヤが損傷したりする危険性が高まっています。<br />
-            地域の住民たちもこのひび割れについて心配しており、事故や怪我のリスクを最小限にするためにも、早急な修繕をお願いしたいと思います。
+            {{ getModalContent.content }}
           </div>
           <div class="mb-6">
             <label
@@ -114,135 +146,164 @@ export default defineComponent({
               class="text-base font-semibold block mb-2 text-sm font-medium text-gray-900"
               >添付画像</label
             >
-            <img src="@/assets/image/hibiware.jpg" alt="product image" />
+            <img
+              v-if="getModalContent.image_url"
+              :src="getImageUrl(getModalContent.image_url)"
+              class="rounded-t-lg"
+              alt="product image"
+            />
+            <img
+              v-else
+              src="@/assets/image/people_in_trable.png"
+              class="rounded-t-lg"
+              alt="product image"
+            />
           </div>
-
-
-          <button
-            @click="changeModal"
-            type="submit"
-            class="text-white bg-gray-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-          >
-            閉じる
-          </button>
-          <button
-            @click="changeModal"
-            type="submit"
-            class="text-white ml-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-          >
-            救助に向かう
-          </button>
-
+          <div class="items-center">
+            <button
+              @click="changeModal"
+              type="submit"
+              class="text-white bg-gray-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              閉じる
+            </button>
+            <button
+              @click="postGoRescoreComment()"
+              type="submit"
+              class="text-white ml-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              救助に向かう
+            </button>
+          </div>
         </div>
         <!-- Modal footer -->
         <div class="items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
           <form>
-
             <!-- ここから-->
 
             <!--自分が押した絵文字-->
-            <span id="badge-dismiss-default" class="inline-flex relative items-center p-1 mr-2 text-sm font-medium text-blue-800 bg-blue-100 rounded">
-                <Emoji v-if="isEmojiOpen" />
-                <button
-                    @click="changeEmojiOpen"
-                    type="button"
-                    class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100"
+            <span
+              id="badge-dismiss-default"
+              class="inline-flex relative items-center p-1 mr-2 text-sm font-medium text-blue-800 bg-blue-100 rounded"
+            >
+              <Emoji v-if="isEmojiOpen" />
+              <button
+                @click="changeEmojiOpen"
+                type="button"
+                class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                    <svg
-                    aria-hidden="true"
-                    class="w-6 h-6"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                    >
-                    <path
-                        fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
-                        clip-rule="evenodd"
-                    ></path>
-                    </svg>
-                </button>
-                    <button type="button" class="inline-flex items-center p-0.5 ml-2 text-sm text-blue-400 bg-transparent rounded-sm hover:bg-blue-200 hover:text-blue-900" data-dismiss-target="#badge-dismiss-default" aria-label="Remove">
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        <span class="sr-only">Remove badge</span>
-                    </button>
-                </span>
-                <!--自分が押した絵文字-->
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="inline-flex items-center p-0.5 ml-2 text-sm text-blue-400 bg-transparent rounded-sm hover:bg-blue-200 hover:text-blue-900"
+                data-dismiss-target="#badge-dismiss-default"
+                aria-label="Remove"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-3.5 h-3.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span class="sr-only">Remove badge</span>
+              </button>
+            </span>
+            <!--自分が押した絵文字-->
 
-                <!--他人が押した絵文字-->
-                <span id="badge-dismiss-dark" class="inline-flex items-center p-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded">
-                    <button
-                    type="button"
-                    class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 "
-                    >
-                    <svg
-                    aria-hidden="true"
-                    class="w-6 h-6"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                    >
-                    <path
-                        fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
-                        clip-rule="evenodd"
-                    ></path>
-                    </svg>
-                </button>
-                </span>
-                <!----他人が押した絵文字---->
-
-                <!----他人が押した絵文字---->
-                <span id="badge-dismiss-dark" class="inline-flex items-center p-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded">
-                    <button
-                    type="button"
-                    class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 "
-                    >
-                    <svg
-                    aria-hidden="true"
-                    class="w-6 h-6"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                    >
-                    <path
-                        fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
-                        clip-rule="evenodd"
-                    ></path>
-                    </svg>
-                </button>
-                <span class="inline-flex items-center justify-center w-3 h-3 p-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">3</span>
-                </span>
             <!--他人が押した絵文字-->
+            <span
+              id="badge-dismiss-dark"
+              class="inline-flex items-center p-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded"
+            >
+              <button
+                type="button"
+                class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+            </span>
+            <!----他人が押した絵文字---->
 
+            <!----他人が押した絵文字---->
+            <span
+              id="badge-dismiss-dark"
+              class="inline-flex items-center p-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded"
+            >
+              <button
+                type="button"
+                class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+              <span
+                class="inline-flex items-center justify-center w-3 h-3 p-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full"
+                >3</span
+              >
+            </span>
+            <!--他人が押した絵文字-->
             <!--コメント（トラスト情報）-->
-            <div class="p-1 mt-3 flex">
-                <div class="p-2 hidden md:block">
-                    <button type="button" class="md:flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                        <span class="sr-only">Open user menu</span>
-                        <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="user photo">
-                    </button>
-                </div>
-                <div>
-                    <div class="font-semibold">カボスの鈴木 <span>2023/06/05 23:07:33</span></div>
-                    <div>私もこれ見たことあります！怖いですよね。早く対応してほしく思います。</div>
-                </div>
+            <div class="p-1 mt-3">
+              <div v-for="feedbackComment in getModalContent.user_report_feedback_comments">
+                <UserComment :user-report-feedback-comment="feedbackComment"></UserComment>
+              </div>
             </div>
             <!--コメント（トラスト情報）-->
 
-
             <!--ここまで-->
-
             <div class="flex items-center py-2 rounded-lg bg-gray-50">
               <textarea
                 id="chat"
+                v-model="comment"
                 rows="5"
                 class="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Your message..."
               ></textarea>
               <button
-                type="submit"
+                @click="postFeedbackComment()"
                 class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100"
               >
                 <svg
@@ -260,7 +321,6 @@ export default defineComponent({
               </button>
             </div>
           </form>
-
         </div>
       </form>
     </div>

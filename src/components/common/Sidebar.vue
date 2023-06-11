@@ -23,10 +23,10 @@
   </button>
   <aside
     id="logo-sidebar"
-    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+    class="bg-white md:bg-transparent fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
     aria-label="Sidebar"
   >
-    <div class="h-full px-3 py-4 overflow-y-auto" style="background: bottom">
+    <div class="h-full px-3 py-4 overflow-y-auto">
       <a href="/" class="flex bg-white rounded-lg p-2 items-center pl-2.5 mb-5">
         <img src="@/assets/image/logo_color.png" class="h-6 ml-4 mr-2 sm:h-7" alt="Flowbite Logo" />
         <span class="logo self-center text-3xl whitespace-nowrap">
@@ -64,60 +64,6 @@
               class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full"
               >3</span
             >
-          </a>
-        </li>
-        <li>
-          <a
-            href="/report"
-            class="flex bg-white items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
-          >
-            <svg
-              aria-hidden="true"
-              class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
-              fill="#5187a3"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              viewBox="0 0 512 512"
-              xml:space="preserve"
-            >
-              <g>
-                <path
-                  class="st0"
-                  d="M433.198,202.846l-69.291-69.236l-54.996-54.926l-52.823-53.018L0,281.562l37.928,37.905l34.026-33.995v200.86
-                                h150.257h67.577h150.257V285.442l34.026,34.026L512,281.562L433.198,202.846z M408.139,454.426H299.595V335.265h-87.191v119.161
-                                H103.862V253.589l152.227-152.103l152.05,152.049V454.426z"
-                ></path>
-              </g>
-            </svg>
-            <span class="flex-1 ml-3 font-semibold whitespace-nowrap">被害状況報告</span>
-          </a>
-        </li>
-        <li>
-          <a
-            href="/linkage"
-            class="flex bg-white items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
-          >
-            <svg
-              aria-hidden="true"
-              class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
-              fill="#5187a3"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              viewBox="0 0 512 512"
-              xml:space="preserve"
-            >
-              <g>
-                <path
-                  class="st0"
-                  d="M433.198,202.846l-69.291-69.236l-54.996-54.926l-52.823-53.018L0,281.562l37.928,37.905l34.026-33.995v200.86
-                                h150.257h67.577h150.257V285.442l34.026,34.026L512,281.562L433.198,202.846z M408.139,454.426H299.595V335.265h-87.191v119.161
-                                H103.862V253.589l152.227-152.103l152.05,152.049V454.426z"
-                ></path>
-              </g>
-            </svg>
-            <span class="flex-1 ml-3 font-semibold whitespace-nowrap">マイナンバー情報連携</span>
           </a>
         </li>
         <li>
@@ -186,12 +132,12 @@
           </a>
         </li>
         <!--<li>
-                <a href="/about" class="flex bg-white items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                <svg aria-hidden="true" class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 " fill="#5187a3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
+                <a href="/about" class="flex bg-white items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 ">
+                <svg aria-hidden="true" class="w-6 h-6 text-gray-500 transition duration-75  group-hover:text-gray-900" fill="#5187a3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
                 <span class="ml-3 font-semibold ">Dashboard</span>
                 </a>
             </li>-->
-        <li>
+        <!-- <li>
           <a
             href="/list"
             class="flex bg-white items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
@@ -213,10 +159,10 @@
               >2</span
             >
           </a>
-        </li>
+        </li> -->
         <!--<li>
-                <a href="#" class="flex bg-white items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="#5187a3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                <a href="#" class="flex bg-white items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 ">
+                <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75  group-hover:text-gray-900" fill="#5187a3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
                 <span class="flex-1 ml-3 whitespace-nowrap">Users</span>
                 </a>
             </li>
