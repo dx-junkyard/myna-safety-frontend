@@ -60,16 +60,22 @@ export default {
   methods: {
     putReport: async function () {
       if (this.userRerportId) {
+        const report = {
+          location: {
+            latitude: this.report?.location.latitude || 0,
+            longitude: this.report?.location.latitude || 0
+          },
+          content: this.content,
+          report_level: this.report?.report_level || ReportLevel.Low,
+          report_status: this.report?.report_status || ReportStatus.NoAssign
+        }
+        const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' })
+        const file = new File([blob], 'blob', {
+          type: 'application/json',
+          lastModified: Date.now()
+        })
         await new ReportApi()
-          .putUserReportReportUserReportIdPut(this.userRerportId, {
-            location: {
-              latitude: this.report?.location.latitude || 0,
-              longitude: this.report?.location.latitude || 0
-            },
-            content: this.content,
-            report_level: this.report?.report_level || ReportLevel.Low,
-            report_status: this.report?.report_status || ReportStatus.NoAssign
-          })
+          .putUserReportReportUserReportIdPut(this.userRerportId, file)
           .catch((error) => {
             console.log(error)
           })
