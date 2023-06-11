@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
+import ReportDetailModal from '@/components/common/ReportDetailModal.vue'
 import ReportTag from '@/components/common/ReportTag.vue'
 import moment from 'moment'
 
@@ -8,14 +9,27 @@ export default defineComponent({
   setup() {
     const store = useStore()
 
+    // アウトラインの表示非表示
     const isMapOutlineOpen = computed(() => store.getters['userReports/getMapOutlineStatus'])
     const getModalContent = computed(() => store.getters['userReports/getModalContent'])
-
     const changeMapOutlineStatus = () => store.commit('userReports/changeMapOutlineStatus')
     const getImageUrl = (name: string) => {
       return new URL(name, import.meta.url).href
     }
-    return { isMapOutlineOpen, changeMapOutlineStatus, getImageUrl, getModalContent, moment }
+
+    //モーダルの表示
+    const changeModal = () => {
+      store.commit('userReports/changeModalContent', getModalContent.value)
+      store.commit('userReports/changeModalStatus')
+    }
+    return {
+      isMapOutlineOpen,
+      changeMapOutlineStatus,
+      getImageUrl,
+      getModalContent,
+      moment,
+      changeModal
+    }
   },
   data() {
     return {
@@ -23,7 +37,8 @@ export default defineComponent({
     }
   },
   components: {
-    ReportTag
+    ReportTag,
+    ReportDetailModal
   }
 })
 </script>
@@ -47,8 +62,10 @@ export default defineComponent({
         <img v-else src="@/assets/image/people_in_trable.png" class="w-50" alt="product image" />
       </div>
       <div class="w-2/3 p-3 lg:p-5">
-        <div class="flex items-start justify-between rounded-t">
-          <h3 class="md:text-xl font-semibold text-gray-900">{{ getModalContent.title }}</h3>
+        <div class="flex justify-between">
+          <h3 class="md:text-xl font-semibold text-gray-900">
+            {{ getModalContent.title }}
+          </h3>
           <button
             @click="changeMapOutlineStatus"
             type="button"
@@ -99,7 +116,15 @@ export default defineComponent({
             moment(getModalContent.updated_at).format('YYYY年MM月DD日 hh時mm分')
           }}</span>
         </div>
+
+        <button
+          @click="changeModal"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+        >
+          詳細を見る
+        </button>
       </div>
     </div>
+    <ReportDetailModal />
   </div>
 </template>
