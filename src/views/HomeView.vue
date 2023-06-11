@@ -93,6 +93,27 @@ export default defineComponent({
               {{ ur.title }}
             </h5>
 
+            <div class="flex items-center mt-2.5 mb-5">
+              <span
+                v-if="ur.report_level === 'High'"
+                class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300"
+              >
+                <p>緊急度: 高</p>
+              </span>
+              <span
+                v-else-if="ur.report_level === 'Middle'"
+                class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300"
+              >
+                <p>緊急度: 中</p>
+              </span>
+              <span
+                v-else
+                class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300"
+              >
+                <p>緊急度: 低</p>
+              </span>
+            </div>
+
             <!--マイナスコアによって優先表示-->
             <div class="flex items-center mt-2.5 mb-5">
               <span
