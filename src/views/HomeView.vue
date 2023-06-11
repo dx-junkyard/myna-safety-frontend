@@ -6,7 +6,6 @@ import { useStore } from '@/store'
 import type { UserReportModel } from '@/types/typescript-axios'
 import moment from 'moment'
 import ReportTag from '@/components/common/ReportTag.vue'
-import liff from '@line/liff'
 
 export default defineComponent({
   setup() {
@@ -36,15 +35,11 @@ export default defineComponent({
         } else if (filterName === 'all') {
           // 全件表示
           newList.push(element)
-        } else if (filterName === 'home' && element.user_id === this.userId) {
-          // 自分のみ表示
-          newList.push(element)
         } else {
           console.log('count')
         }
       })
       viewUserReport.value = newList
-      this.selectedFilterName = filterName
     }
 
     return { viewUserReport, changeModal, filterList, moment }
@@ -54,26 +49,8 @@ export default defineComponent({
     ReportStatusBudge,
     ReportTag
   },
-  async created() {
-    // 本番環境以外は何もしない
-    if (import.meta.env.DEV) {
-      return
-    }
-
-    this.isLoggedIn = liff.isLoggedIn()
-    if (!liff.isInClient() && !liff.isLoggedIn()) {
-      liff.login()
-    } else {
-      this.isInClient = liff.isInClient()
-      liff.getProfile().then((profile) => {
-        this.userId = profile.userId
-      })
-    }
-  },
   data() {
-    return {
-      selectedFilterName: 'home',
-    }
+    return {}
   }
 })
 </script>
@@ -81,13 +58,6 @@ export default defineComponent({
 <template>
   <div class="p-4 sm:ml-64">
     <div class="text-center">
-      <button
-        @click="filterList('home')"
-        type="button"
-        class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-      >
-        自分のみ
-      </button>
       <button
         @click="filterList('all')"
         type="button"
