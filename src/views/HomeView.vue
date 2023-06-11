@@ -23,6 +23,7 @@ export default defineComponent({
     onBeforeMount(async () => {
       await store.dispatch('userReports/getAllList')
       viewUserReport.value = userReport.value
+      filterList('all')
     })
     const filterList = (filterName: string) => {
       let newList: UserReportModel[] = []
@@ -33,7 +34,10 @@ export default defineComponent({
         } else if (filterName === 'high' && element.report_level === 'High') {
           // 重要度でフィルタ
           newList.push(element)
-        } else if (filterName === 'all') {
+        } else if (filterName === 'allWithComplete') {
+          // 全件表示
+          newList.push(element)
+        } else if (filterName === 'all' && element.report_status !== 'COMPLETE') {
           // 全件表示
           newList.push(element)
         } else {
@@ -42,14 +46,14 @@ export default defineComponent({
       })
       viewUserReport.value = newList
     }
-    moment.locale( 'ja' );
+    moment.locale('ja')
     return { viewUserReport, changeModal, filterList, moment }
   },
   components: {
     ReportDetailModal,
     ReportStatusBudge,
     ReportTag,
-    IconEmergency,
+    IconEmergency
   },
   data() {
     return {}
@@ -72,7 +76,12 @@ export default defineComponent({
         type="button"
         class="text-gray-900 border border-white hover:border-gray-200 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3"
       >
-      <img src="@/assets/image/logo_color.png"  class="inline" style="width: 30px;" alt="マイナポータルAPI連携">
+        <img
+          src="@/assets/image/logo_color.png"
+          class="inline"
+          style="width: 30px"
+          alt="マイナポータルAPI連携"
+        />
         マイナポータルAPI連携のみ
       </button>
       <button
@@ -80,8 +89,15 @@ export default defineComponent({
         type="button"
         class="text-gray-900 border border-white hover:border-gray-200 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3"
       >
-      <IconEmergency />
+        <IconEmergency />
         緊急度高のみ
+      </button>
+      <button
+        @click="filterList('allWithComplete')"
+        type="button"
+        class="text-gray-900 border border-white hover:border-gray-200 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3"
+      >
+        完了も表示
       </button>
     </div>
 
@@ -215,11 +231,11 @@ export default defineComponent({
             <!--他人が押した絵文字-->
             <!--コメント（トラスト情報）-->
             <div class="p-1 mt-1 font-semibold">
-                <span v-if="ur.user_report_feedback_comments.length" class="mr-3">
-                    返信{{ ur.user_report_feedback_comments.length }}件
-                </span>
+              <span v-if="ur.user_report_feedback_comments.length" class="mr-3">
+                返信{{ ur.user_report_feedback_comments.length }}件
+              </span>
               <span v-if="!ur.updated_at">{{ moment(ur.created_at).fromNow() }}</span>
-              <span v-if="ur.updated_at">{{ moment(ur.updated_at).fromNow()}}</span>
+              <span v-if="ur.updated_at">{{ moment(ur.updated_at).fromNow() }}</span>
             </div>
             <!--コメント（トラスト情報）-->
           </div>
