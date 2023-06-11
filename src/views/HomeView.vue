@@ -121,7 +121,7 @@ export default defineComponent({
             <img
               v-if="ur.image_url"
               class="rounded-t-lg"
-              src="https://storage.cloud.google.com/myna-safety/thumbnail/xyz.jpeg"
+              :src="ur.image_url"
               alt="product image"
               loading="lazy"
             />
