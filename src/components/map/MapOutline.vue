@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
+import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
 
 export default defineComponent({
   setup() {
@@ -19,6 +20,9 @@ export default defineComponent({
     return {
       isEmojiOpen: false
     }
+  },
+  components: {
+    ReportStatusBudge
   }
 })
 </script>
@@ -65,10 +69,20 @@ export default defineComponent({
             </svg>
           </button>
         </div>
+        <!--マイナスコアによって優先表示-->
+        <div class="flex items-center mt-2.5 mb-5">
+          <span
+            v-if="getModalContent.report_score > 3"
+            class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-yellow-300"
+          >
+            <p>より助けを必要としている人からの申告です</p>
+          </span>
+        </div>
         {{ getModalContent.content }}<br />
-        【未着手】ステータス表示<br />
-        {{ getModalContent.updated_at }}<br />
-        東京都台東区上野７丁目
+        <ReportStatusBudge :report_status="getModalContent.report_status" />
+        <br />
+        {{ getModalContent.created_at }}<br />
+        {{ getModalContent.address }}
       </div>
     </div>
   </div>

@@ -18,7 +18,7 @@ import type { Configuration } from './configuration'
 import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios'
 import globalAxios from 'axios'
 
-export const BASE_PATH = 'http://myna-safety-backend-r2dn2ftu7a-uc.a.run.app/'.replace(/\/+$/, '')
+export const BASE_PATH = 'http://myna-safety-backend-r2dn2ftu7a-uc.a.run.app'.replace(/\/+$/, '')
 
 /**
  *

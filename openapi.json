@@ -249,10 +249,78 @@
           }
         }
       }
+    },
+    "/__dummy_report__dummy_post": {
+      "post": {
+        "summary": " Dummy Post User Report",
+        "description": "openapi-generatorの生成用",
+        "operationId": "_dummy_post_user_report___dummy_report__dummy_post_post",
+        "deprecated": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EntryUserReportRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/__dummy_report__dummy_put": {
+      "put": {
+        "summary": " Dummy Put User Report",
+        "description": "openapi-generatorの生成用",
+        "operationId": "_dummy_put_user_report___dummy_report__dummy_put_put",
+        "deprecated": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body__dummy_put_user_report___dummy_report__dummy_put_put"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "Body__dummy_put_user_report___dummy_report__dummy_put_put": {
+        "title": "Body__dummy_put_user_report___dummy_report__dummy_put_put",
+        "required": ["request"],
+        "type": "object",
+        "properties": { "request": { "title": "Request", "type": "string", "format": "binary" } }
+      },
       "Body_post_user_report_report_post": {
         "title": "Body_post_user_report_report_post",
         "required": ["request"],
@@ -267,7 +335,7 @@
         "required": ["request"],
         "type": "object",
         "properties": {
-          "request": { "$ref": "#/components/schemas/UpdateUserReportRequest" },
+          "request": { "title": "Request", "type": "string", "format": "binary" },
           "file": { "title": "File", "type": "string", "format": "binary" }
         }
       },
@@ -411,39 +479,6 @@
         "type": "string",
         "description": "An enumeration."
       },
-      "UpdateUserReportRequest": {
-        "title": "UpdateUserReportRequest",
-        "required": ["location", "content", "report_level", "report_status"],
-        "type": "object",
-        "properties": {
-          "location": {
-            "title": "Location",
-            "allOf": [
-              { "$ref": "#/components/schemas/app__models__user_report__domain__Location" }
-            ],
-            "description": "申告者の位置情報"
-          },
-          "title": {
-            "title": "Title",
-            "type": "string",
-            "description": "画面に表示されるタイトル。報告内容などからChatGPTから自動で生成される",
-            "default": "タイトルなし"
-          },
-          "content": {
-            "title": "Content",
-            "type": "string",
-            "description": "報告内容、選択式にする？"
-          },
-          "report_level": {
-            "allOf": [{ "$ref": "#/components/schemas/ReportLevel" }],
-            "description": "申告内容の深刻度"
-          },
-          "report_status": {
-            "allOf": [{ "$ref": "#/components/schemas/ReportStatus" }],
-            "description": "申告内容の状態"
-          }
-        }
-      },
       "UpdateUserReportResponse": {
         "title": "UpdateUserReportResponse",
         "required": ["user_report_id"],
@@ -505,7 +540,7 @@
             "type": "string",
             "description": "作成時間",
             "format": "date-time",
-            "default": "2023-06-10T23:51:07.329468+09:00"
+            "default": "2023-06-11T14:34:00.577754+09:00"
           },
           "updated_at": {
             "title": "Updated At",
@@ -545,7 +580,7 @@
             "type": "string",
             "description": "作成時間",
             "format": "date-time",
-            "default": "2023-06-10T23:51:07.330799+09:00"
+            "default": "2023-06-11T14:34:00.578294+09:00"
           },
           "updated_at": {
             "title": "Updated At",
@@ -597,6 +632,7 @@
             "description": "報告内容、選択式にする？"
           },
           "image_url": { "title": "Image Url", "type": "string", "description": "画像のURL" },
+          "address": { "title": "Address", "type": "string", "description": "住所", "default": "" },
           "report_level": {
             "allOf": [{ "$ref": "#/components/schemas/ReportLevel" }],
             "description": "申告内容の深刻度"
@@ -616,7 +652,7 @@
             "type": "string",
             "description": "作成時間",
             "format": "date-time",
-            "default": "2023-06-10T23:51:07.332885+09:00"
+            "default": "2023-06-11T14:34:00.579871+09:00"
           },
           "updated_at": {
             "title": "Updated At",

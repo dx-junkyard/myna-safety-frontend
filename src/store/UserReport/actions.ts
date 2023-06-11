@@ -1,5 +1,9 @@
 import { type RootState, type UserReportState } from '@/store/types'
-import { ReportApi, type ListUserReportResponse } from '@/types/typescript-axios'
+import {
+  ReportApi,
+  type ListUserReportResponse,
+  type EntryUserReportFeedBackCommentRequest
+} from '@/types/typescript-axios'
 import type { ActionTree } from 'vuex/types/index.js'
 
 const actions: ActionTree<UserReportState, RootState> = {
@@ -12,6 +16,24 @@ const actions: ActionTree<UserReportState, RootState> = {
       console.log(error)
     }
   }
+  // postFeedbackComment: async (
+  //   { commit },
+  //   reportId: string,
+  //   request: EntryUserReportFeedBackCommentRequest
+  // ) => {
+  //   try {
+  //     const response =
+  //       await new ReportApi().postUserReportFeedbackCommentReportReportIdFeedbackCommentPost(
+  //         reportId,
+  //         request
+  //       )
+  //     console.log(response)
+  //     // const data: ListUserReportResponse = response.data
+  //     // commit('getAllList', data.user_reports)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 }
 
 export default actions

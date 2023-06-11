@@ -77,7 +77,15 @@ export default defineComponent({
           </button>
         </div>
         <!-- Modal body -->
+        <!--マイナスコアによって優先表示-->
         <div class="p-6 space-y-6">
+          <div v-if="getModalContent.report_score > 3" class="flex items-center mt-2.5 mb-5">
+            <span
+              class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-yellow-300"
+            >
+              <p>より助けを必要としている人からの申告です</p>
+            </span>
+          </div>
           <label
             for="password"
             class="text-base font-semibold block mb-2 text-sm font-medium text-gray-900"
@@ -91,7 +99,7 @@ export default defineComponent({
               class="text-base font-semibold block mb-2 text-sm font-medium text-gray-900"
               >発生場所</label
             >
-            {{ getModalContent.latitude }}
+            {{ getModalContent.address }}
           </div>
           <div class="mb-6">
             <label
@@ -120,21 +128,22 @@ export default defineComponent({
               alt="product image"
             />
           </div>
-
-          <button
-            @click="changeModal"
-            type="submit"
-            class="text-white bg-gray-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-          >
-            閉じる
-          </button>
-          <button
-            @click="changeModal"
-            type="submit"
-            class="text-white ml-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-          >
-            救助に向かう
-          </button>
+          <div class="items-center">
+            <button
+              @click="changeModal"
+              type="submit"
+              class="text-white bg-gray-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              閉じる
+            </button>
+            <button
+              @click="changeModal"
+              type="submit"
+              class="text-white ml-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              救助に向かう
+            </button>
+          </div>
         </div>
         <!-- Modal footer -->
         <div class="items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
