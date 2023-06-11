@@ -13,6 +13,8 @@
     "generate-client": "openapi-generator-cli generate -g typescript-axios -i openapi.json -o ./src/types/typescript-axios"
   },
   "dependencies": {
+    "@line/liff": "^2.22.1",
+    "@line/liff-mock": "^1.0.3",
     "emoji-mart-vue-fast": "^12.0.4",
     "flowbite": "^1.6.5",
     "flowbite-vue": "^0.0.10",
