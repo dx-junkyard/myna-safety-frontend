@@ -1,9 +1,8 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
-import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
+import ReportTag from '@/components/common/ReportTag.vue'
 import moment from 'moment'
-
 
 export default defineComponent({
   setup() {
@@ -24,7 +23,7 @@ export default defineComponent({
     }
   },
   components: {
-    ReportStatusBudge
+    ReportTag
   }
 })
 </script>
@@ -71,25 +70,10 @@ export default defineComponent({
             </svg>
           </button>
         </div>
-        <!--マイナスコアによって優先表示-->
-        <div class="flex items-center mt-2.5 mb-5">
-          <span
-            v-if="getModalContent.report_score > 3"
-            class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-yellow-300"
-          >
-            <p>より助けを必要としている人からの申告です</p>
-          </span>
-        </div>
-        <ReportStatusBudge :report_status="getModalContent.report_status" />
 
         <!--マイナスコアによって優先表示-->
         <div class="flex items-center mt-2.5 mb-5">
-          <span
-            v-if="getModalContent.report_score > 3"
-            class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-yellow-300"
-          >
-            <p>より助けを必要としている人からの申告です</p>
-          </span>
+          <ReportTag :user-report="getModalContent"></ReportTag>
         </div>
 
         <div class="flex items-center mt-2.5 mb-5">

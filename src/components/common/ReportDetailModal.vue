@@ -4,6 +4,7 @@ import { defineComponent, computed, onBeforeMount } from 'vue'
 import { useStore } from '@/store'
 import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
 import UserComment from '@/components/common/UserComment.vue'
+import ReportTag from '@/components/common/ReportTag.vue'
 import moment from 'moment'
 
 export default defineComponent({
@@ -26,7 +27,8 @@ export default defineComponent({
   components: {
     Emoji,
     ReportStatusBudge,
-    UserComment
+    UserComment,
+    ReportTag
   },
   methods: {
     changeEmojiOpen() {
@@ -80,12 +82,8 @@ export default defineComponent({
         <!-- Modal body -->
         <!--マイナスコアによって優先表示-->
         <div class="p-6 space-y-6">
-          <div v-if="getModalContent.report_score > 3" class="flex items-center mt-2.5 mb-5">
-            <span
-              class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-yellow-300"
-            >
-              <p>より助けを必要としている人からの申告です</p>
-            </span>
+          <div class="flex items-center mt-2.5 mb-5">
+            <ReportTag :user-report="getModalContent"></ReportTag>
           </div>
           <label
             for="password"
