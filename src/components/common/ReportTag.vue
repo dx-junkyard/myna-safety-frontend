@@ -8,7 +8,7 @@ export default {
     v-if="userReport.report_score > 3"
     class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-yellow-300"
   >
-    <p>より助けを必要としている人からの申告です</p>
+    <p>マイナ連携: より助けを必要としている人からの申告です</p>
   </span>
   <span
     v-if="userReport.report_level === 'High'"
