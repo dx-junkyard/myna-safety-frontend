@@ -4,6 +4,7 @@ import { defineComponent, computed, onBeforeMount } from 'vue'
 import { useStore } from '@/store'
 import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
 import UserComment from '@/components/common/UserComment.vue'
+import moment from 'moment'
 
 export default defineComponent({
   setup() {
@@ -20,7 +21,7 @@ export default defineComponent({
     const getImageUrl = (name: string) => {
       return new URL(name, import.meta.url).href
     }
-    return { changeModal, isMapOutlineOpen, getModalContent, getImageUrl }
+    return { changeModal, isMapOutlineOpen, getModalContent, getImageUrl, moment }
   },
   components: {
     Emoji,
@@ -91,8 +92,12 @@ export default defineComponent({
             class="text-base font-semibold block mb-2 text-sm font-medium text-gray-900"
             >発生時間</label
           >
-          {{ getModalContent.created_at }}<br />
-          (最終更新時間：{{ getModalContent.updated_at }})
+          {{ moment(getModalContent.created_at).format('YYYY年MM月DD日 hh時mm分') }}<br />
+          <span v-if="getModalContent.updated_at">
+            (最終更新時間：{{
+              moment(getModalContent.updated_at).format('YYYY年MM月DD日 hh時mm分')
+            }})
+          </span>
           <div class="mb-6">
             <label
               for="email"
