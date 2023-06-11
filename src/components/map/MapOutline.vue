@@ -52,7 +52,7 @@ export default defineComponent({
     style="background: rgb(230, 244, 251); left: 4%"
   >
     <div class="flex p-2">
-      <div class="w-1/3 py-3 lg:p-5">
+      <div class="w-1/3 py-3 lg:p-5 hidden md:block">
         <img
           v-if="getModalContent.image_url"
           :src="getImageUrl(getModalContent.image_url)"
@@ -61,7 +61,7 @@ export default defineComponent({
         />
         <img v-else src="@/assets/image/people_in_trable.png" class="w-50" alt="product image" />
       </div>
-      <div class="w-2/3 p-3 lg:p-5">
+      <div class="w-100 md:w-2/3 p-3 lg:p-5">
         <div class="flex justify-between">
           <h3 class="md:text-xl font-semibold text-gray-900">
             {{ getModalContent.title }}
