@@ -81,6 +81,7 @@ export default defineComponent({
           class="inline"
           style="width: 30px"
           alt="マイナポータルAPI連携"
+          loading="lazy"
         />
         マイナポータルAPI連携のみ
       </button>
@@ -122,24 +123,28 @@ export default defineComponent({
               class="rounded-t-lg"
               src="https://storage.cloud.google.com/myna-safety/thumbnail/xyz.jpeg"
               alt="product image"
+              loading="lazy"
             />
             <img
               v-if="ur.content.indexOf('ひび割れ') != -1"
               class="rounded-t-lg"
               src="@/assets/image/hibiware.jpg"
               alt="product image"
+              loading="lazy"
             />
             <img
               v-if="ur.content.indexOf('夜道') != -1"
               class="rounded-t-lg"
               src="@/assets/image/yomichi.jpg"
               alt="product image"
+              loading="lazy"
             />
             <img
               v-if="ur.content.indexOf('土砂崩れ') != -1"
               class="rounded-t-lg"
               src="@/assets/image/dosyakuzure.jpg"
               alt="product image"
+              loading="lazy"
             />
             <img
               v-if="
@@ -151,6 +156,7 @@ export default defineComponent({
               class="p-8 rounded-t-lg bg-light-orange"
               src="@/assets/image/people_in_trable.png"
               alt="product image"
+              loading="lazy"
             />
             <div class="absolute top-0 right-0 mt-2 mr-2 px-2 py-1 bg-white text-black rounded">
               <ReportStatusBudge :report_status="ur.report_status" />

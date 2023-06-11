@@ -151,12 +151,14 @@ export default defineComponent({
               :src="getImageUrl(getModalContent.image_url)"
               class="rounded-t-lg"
               alt="product image"
+              loading="lazy"
             />
             <img
               v-else
               src="@/assets/image/people_in_trable.png"
               class="rounded-t-lg"
               alt="product image"
+              loading="lazy"
             />
           </div>
           <div class="items-center">
