@@ -6,6 +6,7 @@ import { useStore } from '@/store'
 import type { UserReportModel } from '@/types/typescript-axios'
 import moment from 'moment'
 import ReportTag from '@/components/common/ReportTag.vue'
+import IconEmergency from '@/components/icons/IconEmergency.vue'
 
 export default defineComponent({
   setup() {
@@ -41,13 +42,14 @@ export default defineComponent({
       })
       viewUserReport.value = newList
     }
-
+    moment.locale( 'ja' );
     return { viewUserReport, changeModal, filterList, moment }
   },
   components: {
     ReportDetailModal,
     ReportStatusBudge,
-    ReportTag
+    ReportTag,
+    IconEmergency,
   },
   data() {
     return {}
@@ -61,23 +63,25 @@ export default defineComponent({
       <button
         @click="filterList('all')"
         type="button"
-        class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+        class="text-gray-900 border border-white hover:border-gray-200 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3"
       >
         全件
       </button>
       <button
         @click="filterList('myna')"
         type="button"
-        class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+        class="text-gray-900 border border-white hover:border-gray-200 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3"
       >
-        マイナ連携のみ
+      <img src="@/assets/image/logo_color.png"  class="inline" style="width: 30px;" alt="マイナポータルAPI連携">
+        マイナポータルAPI連携のみ
       </button>
       <button
         @click="filterList('high')"
         type="button"
-        class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+        class="text-gray-900 border border-white hover:border-gray-200 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3"
       >
-        優先度高のみ
+      <IconEmergency />
+        緊急度高のみ
       </button>
     </div>
 
@@ -149,7 +153,7 @@ export default defineComponent({
             <div class="flex items-center mt-2.5 mb-5">
               <span
                 class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
-                >位置情報</span
+                >位置<span class="inline-block">情報</span></span
               >
               <span class="text-sm text-gray-900">{{ ur.address }} </span>
             </div>
@@ -211,12 +215,11 @@ export default defineComponent({
             <!--他人が押した絵文字-->
             <!--コメント（トラスト情報）-->
             <div class="p-1 mt-1 font-semibold">
-              返信{{ ur.user_report_feedback_comments.length }}件
-              <span>{{ moment(ur.created_at).format('YYYY年MM月DD日 hh時mm分') }}</span
-              ><br />
-              <span v-if="ur.updated_at">{{
-                moment(ur.updated_at).format('YYYY年MM月DD日 hh時mm分')
-              }}</span>
+                <span v-if="ur.user_report_feedback_comments.length" class="mr-3">
+                    返信{{ ur.user_report_feedback_comments.length }}件
+                </span>
+              <span v-if="!ur.updated_at">{{ moment(ur.created_at).fromNow() }}</span>
+              <span v-if="ur.updated_at">{{ moment(ur.updated_at).fromNow()}}</span>
             </div>
             <!--コメント（トラスト情報）-->
           </div>
