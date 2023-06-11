@@ -1,7 +1,7 @@
 <script lang="ts">
 import ReportDetailModal from '@/components/common/ReportDetailModal.vue'
 import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
-import { defineComponent, computed, onBeforeMount } from 'vue'
+import { defineComponent, computed, onBeforeMount, ref } from 'vue'
 import { useStore } from '@/store'
 import type { UserReportModel } from '@/types/typescript-axios'
 import moment from 'moment'
@@ -13,12 +13,35 @@ export default defineComponent({
       store.commit('userReports/changeModalContent', modalContent)
       store.commit('userReports/changeModalStatus')
     }
+    const userReport = computed(() => {
+      return store.getters['userReports/getAllList']
+    })
 
-    const userReport = computed(() => store.getters['userReports/getAllList'])
+    let viewUserReport = ref(null)
     onBeforeMount(async () => {
       await store.dispatch('userReports/getAllList')
+      viewUserReport.value = userReport.value
     })
-    return { userReport, changeModal, moment }
+    const filterList = (filterName: string) => {
+      let newList: UserReportModel[] = []
+      userReport.value.forEach((element) => {
+        if (filterName === 'myna' && element.report_score) {
+          // マイナンバーでフィルタ
+          newList.push(element)
+        } else if (filterName === 'high' && element.report_level === 'High') {
+          // 重要度でフィルタ
+          newList.push(element)
+        } else if (filterName === 'all') {
+          // 全件表示
+          newList.push(element)
+        } else {
+          console.log('count')
+        }
+      })
+      viewUserReport.value = newList
+    }
+
+    return { viewUserReport, changeModal, filterList, moment }
   },
   components: {
     ReportDetailModal,
@@ -32,11 +55,35 @@ export default defineComponent({
 
 <template>
   <div class="p-4 sm:ml-64">
+    <div class="text-center">
+      <button
+        @click="filterList('all')"
+        type="button"
+        class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+      >
+        全件
+      </button>
+      <button
+        @click="filterList('myna')"
+        type="button"
+        class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+      >
+        マイナ連携のみ
+      </button>
+      <button
+        @click="filterList('high')"
+        type="button"
+        class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+      >
+        優先度高のみ
+      </button>
+    </div>
+
     <div
-      class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 3xl:md:grid-cols-6"
+      class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 3xl:md:grid-cols-3"
     >
       <div
-        v-for="ur in userReport"
+        v-for="ur in viewUserReport"
         :key="ur"
         class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow m-auto"
       >
@@ -93,13 +140,34 @@ export default defineComponent({
               {{ ur.title }}
             </h5>
 
+            <div class="flex items-center mt-2.5 mb-5">
+              <span
+                v-if="ur.report_level === 'High'"
+                class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300"
+              >
+                <p>緊急度: 高</p>
+              </span>
+              <span
+                v-else-if="ur.report_level === 'Middle'"
+                class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300"
+              >
+                <p>緊急度: 中</p>
+              </span>
+              <span
+                v-else
+                class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300"
+              >
+                <p>緊急度: 低</p>
+              </span>
+            </div>
+
             <!--マイナスコアによって優先表示-->
             <div class="flex items-center mt-2.5 mb-5">
               <span
                 v-if="ur.report_score > 3"
                 class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-yellow-300"
               >
-                <p>より助けを必要としている人からの申告です</p>
+                <p>マイナ連携: より助けを必要としている人からの申告です</p>
               </span>
             </div>
 
@@ -169,7 +237,8 @@ export default defineComponent({
             <!--コメント（トラスト情報）-->
             <div class="p-1 mt-1 font-semibold">
               返信{{ ur.user_report_feedback_comments.length }}件
-              <span>{{ moment(ur.created_at).format('YYYY年MM月DD日 hh時mm分') }}</span>
+              <span>{{ moment(ur.created_at).format('YYYY年MM月DD日 hh時mm分') }}</span
+              ><br />
               <span v-if="ur.updated_at">{{
                 moment(ur.updated_at).format('YYYY年MM月DD日 hh時mm分')
               }}</span>
