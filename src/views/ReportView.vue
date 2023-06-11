@@ -66,7 +66,7 @@ export default {
               latitude: this.report?.location.latitude || 0,
               longitude: this.report?.location.latitude || 0
             },
-            content: this.report ? this.report.content : this.content,
+            content: this.content,
             report_level: this.report?.report_level || ReportLevel.Low,
             report_status: this.report?.report_status || ReportStatus.NoAssign
           })
