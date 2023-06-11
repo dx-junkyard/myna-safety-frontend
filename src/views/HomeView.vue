@@ -46,55 +46,68 @@ export default defineComponent({
           data-modal-target="editUserModal"
           data-modal-show="editUserModal"
         >
-          <img
-            v-if="ur.image_url"
-            class="rounded-t-lg"
-            src="https://storage.cloud.google.com/myna-safety/thumbnail/xyz.jpeg"
-            alt="product image"
-          />
-          <img
-            v-if="ur.content.indexOf('ひび割れ') != -1"
-            class="rounded-t-lg"
-            src="@/assets/image/hibiware.jpg"
-            alt="product image"
-          />
-          <img
-            v-if="ur.content.indexOf('夜道') != -1"
-            class="rounded-t-lg"
-            src="@/assets/image/yomichi.jpg"
-            alt="product image"
-          />
-          <img
-            v-if="ur.content.indexOf('土砂崩れ') != -1"
-            class="rounded-t-lg"
-            src="@/assets/image/dosyakuzure.jpg"
-            alt="product image"
-          />
-          <img
-            v-if="
-              !ur.image_url &&
-              ur.content.indexOf('ひび割れ') == -1 &&
-              ur.content.indexOf('夜道') == -1 &&
-              ur.content.indexOf('土砂崩れ') == -1
-            "
-            class="p-8 rounded-t-lg bg-light-orange"
-            src="@/assets/image/people_in_trable.png"
-            alt="product image"
-          />
+          <div class="relative inline-block">
+            <img
+              v-if="ur.image_url"
+              class="rounded-t-lg"
+              src="https://storage.cloud.google.com/myna-safety/thumbnail/xyz.jpeg"
+              alt="product image"
+            />
+            <img
+              v-if="ur.content.indexOf('ひび割れ') != -1"
+              class="rounded-t-lg"
+              src="@/assets/image/hibiware.jpg"
+              alt="product image"
+            />
+            <img
+              v-if="ur.content.indexOf('夜道') != -1"
+              class="rounded-t-lg"
+              src="@/assets/image/yomichi.jpg"
+              alt="product image"
+            />
+            <img
+              v-if="ur.content.indexOf('土砂崩れ') != -1"
+              class="rounded-t-lg"
+              src="@/assets/image/dosyakuzure.jpg"
+              alt="product image"
+            />
+            <img
+              v-if="
+                !ur.image_url &&
+                ur.content.indexOf('ひび割れ') == -1 &&
+                ur.content.indexOf('夜道') == -1 &&
+                ur.content.indexOf('土砂崩れ') == -1
+              "
+              class="p-8 rounded-t-lg bg-light-orange"
+              src="@/assets/image/people_in_trable.png"
+              alt="product image"
+            />
+            <div class="absolute top-0 right-0 mt-2 mr-2 px-2 py-1 bg-white text-black rounded">
+              <ReportStatusBudge :report_status="ur.report_status" />
+            </div>
+          </div>
+
           <div class="px-5 pt-3 pb-5">
-            <ReportStatusBudge :report_status="ur.report_status" />
             <h5 class="text-xl font-semibold tracking-tight text-gray-900">
               {{ ur.title }}
             </h5>
+
+            <!--マイナスコアによって優先表示-->
+            <div class="flex items-center mt-2.5 mb-5">
+              <span
+                v-if="ur.report_score > 3"
+                class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-yellow-300"
+              >
+                <p>より助けを必要としている人からの申告です</p>
+              </span>
+            </div>
+
             <div class="flex items-center mt-2.5 mb-5">
               <span
                 class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
                 >位置情報</span
               >
-              <span class="text-sm text-gray-900"
-                >{{ ur.location.longitude }}
-                ←住所に変換する
-              </span>
+              <span class="text-sm text-gray-900">{{ ur.address }} </span>
             </div>
 
             <!--他人が押した絵文字-->
@@ -154,7 +167,7 @@ export default defineComponent({
             <!--他人が押した絵文字-->
             <!--コメント（トラスト情報）-->
             <div class="p-1 mt-1 font-semibold">
-              返信{{ ur.user_report_feedback_comments.length }}件 <span>2023/06/05 23:07:33</span>
+              返信{{ ur.user_report_feedback_comments.length }}件 <span>{{ ur.updated_at }}</span>
             </div>
             <!--コメント（トラスト情報）-->
           </div>
