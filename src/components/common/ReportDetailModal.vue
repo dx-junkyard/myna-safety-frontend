@@ -1,11 +1,12 @@
 <script lang="ts">
 import Emoji from '@/components/common/EmojiBox.vue'
-import { defineComponent, computed, onBeforeMount } from 'vue'
+import { defineComponent, computed, onBeforeMount, ref } from 'vue'
 import { useStore } from '@/store'
 import ReportStatusBudge from '@/components/common/ReportStatusBudge.vue'
 import UserComment from '@/components/common/UserComment.vue'
 import ReportTag from '@/components/common/ReportTag.vue'
 import moment from 'moment'
+import type { EntryUserReportFeedBackCommentRequest } from '@/types/typescript-axios'
 
 export default defineComponent({
   setup() {
@@ -22,7 +23,34 @@ export default defineComponent({
     const getImageUrl = (name: string) => {
       return new URL(name, import.meta.url).href
     }
-    return { changeModal, isMapOutlineOpen, getModalContent, getImageUrl, moment }
+
+    let comment = ref('')
+    const postFeedbackComment = () => {
+      const reportId = getModalContent.value.user_report_id
+      const request = {
+        user_id: 'hogehoge',
+        comment: comment.value
+      } as EntryUserReportFeedBackCommentRequest
+      store.dispatch('userReports/postFeedbackComment', { reportId, request })
+    }
+    const postGoRescoreComment = () => {
+      const reportId = getModalContent.value.user_report_id
+      const request = {
+        user_id: 'hogehoge',
+        comment: 'テストユーザさんが救援に向かいます！'
+      } as EntryUserReportFeedBackCommentRequest
+      store.dispatch('userReports/postFeedbackComment', { reportId, request })
+    }
+    return {
+      comment,
+      changeModal,
+      isMapOutlineOpen,
+      getModalContent,
+      getImageUrl,
+      postFeedbackComment,
+      postGoRescoreComment,
+      moment
+    }
   },
   components: {
     Emoji,
@@ -140,7 +168,7 @@ export default defineComponent({
               閉じる
             </button>
             <button
-              @click="changeModal"
+              @click="postGoRescoreComment()"
               type="submit"
               class="text-white ml-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
@@ -266,16 +294,16 @@ export default defineComponent({
             <!--コメント（トラスト情報）-->
 
             <!--ここまで-->
-
             <div class="flex items-center py-2 rounded-lg bg-gray-50">
               <textarea
                 id="chat"
+                v-model="comment"
                 rows="5"
                 class="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Your message..."
               ></textarea>
               <button
-                type="submit"
+                @click="postFeedbackComment()"
                 class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100"
               >
                 <svg

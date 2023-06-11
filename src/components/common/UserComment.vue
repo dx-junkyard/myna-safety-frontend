@@ -1,8 +1,12 @@
 <script lang="ts">
 import { PropType } from 'vue'
 import type { UserReportFeedbackComment } from '@/types/typescript-axios'
+import moment from 'moment'
 
 export default {
+  setup() {
+    return { moment }
+  },
   props: {
     userReportFeedbackComment: {
       type: Object as PropType<UserReportFeedbackComment>
@@ -32,10 +36,16 @@ export default {
     </div>
     <div>
       <div class="font-semibold">
-        {{ userReportFeedbackComment.user_id }}
-        <span>{{ userReportFeedbackComment.created_at }}</span>
+        テストユーザ
+        <span>
+          {{ moment(userReportFeedbackComment.created_at).format('YYYY年MM月DD日 hh時mm分') }}</span
+        >
       </div>
-      <div>{{ userReportFeedbackComment.comment }}</div>
+      <div
+        class="block p-2.5 w-full text-sm text-gray-100 bg-gray-10 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      >
+        {{ userReportFeedbackComment.comment }}
+      </div>
     </div>
   </div>
 </template>
