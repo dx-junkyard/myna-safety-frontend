@@ -99,7 +99,7 @@ export default defineComponent({
                 v-if="ur.report_score > 3"
                 class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-yellow-300"
               >
-                <p>より助けを必要としている人からの申告です</p>
+                <p>マイナ連携: より助けを必要としている人からの申告です</p>
               </span>
             </div>
 
@@ -169,7 +169,8 @@ export default defineComponent({
             <!--コメント（トラスト情報）-->
             <div class="p-1 mt-1 font-semibold">
               返信{{ ur.user_report_feedback_comments.length }}件
-              <span>{{ moment(ur.created_at).format('YYYY年MM月DD日 hh時mm分') }}</span>
+              <span>{{ moment(ur.created_at).format('YYYY年MM月DD日 hh時mm分') }}</span
+              ><br />
               <span v-if="ur.updated_at">{{
                 moment(ur.updated_at).format('YYYY年MM月DD日 hh時mm分')
               }}</span>
