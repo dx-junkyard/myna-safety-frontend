@@ -33,7 +33,7 @@ export default defineComponent({
 <template>
   <div class="p-4 sm:ml-64">
     <div
-      class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 3xl:md:grid-cols-6"
+      class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 3xl:md:grid-cols-3"
     >
       <div
         v-for="ur in userReport"
