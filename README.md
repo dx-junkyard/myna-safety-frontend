@@ -51,3 +51,8 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### Compile and Hot-Reload for Development and to host 
+
+```sh
+npm run dev -- --host
